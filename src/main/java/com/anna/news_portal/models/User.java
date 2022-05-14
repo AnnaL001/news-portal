@@ -1,16 +1,18 @@
 package com.anna.news_portal.models;
 
 public class User {
-  private int id;
-  private String name;
-  private String position;
-  private String role;
-  private int department_id;
+  protected int id;
+  protected String name;
+  protected String position;
+  protected String role;
+  protected int department_id;
 
-  public User(String name, String position, String role) {
+  public static final String ROLE = "Normal user";
+
+  public User(String name, String position) {
     this.name = name;
     this.position = position;
-    this.role = role;
+    this.role = ROLE;
   }
 
   public int getId() {
