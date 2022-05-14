@@ -4,7 +4,7 @@ import com.anna.news_portal.base.News;
 
 
 public class GeneralNews extends News {
-  private static final String NEWS_TYPE = "General";
+  public static final String NEWS_TYPE = "General";
 
   public GeneralNews(String title, String content) {
     this.title = title;
