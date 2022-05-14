@@ -9,6 +9,8 @@ public class GeneralNews extends News {
   public GeneralNews(String title, String content) {
     this.title = title;
     this.content = content;
+    setFormatted_created_date();
+    this.formatted_created_date = getFormatted_created_date();
     this.news_type = NEWS_TYPE;
   }
 }
