@@ -1,5 +1,6 @@
 package com.anna.news_portal.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Department {
@@ -13,6 +14,9 @@ public class Department {
   public Department(String name, String description) {
     this.name = name;
     this.description = description;
+    this.employee_count = 0;
+    this.users = new ArrayList<>();
+    this.news = new ArrayList<>();
   }
 
   public int getId() {
