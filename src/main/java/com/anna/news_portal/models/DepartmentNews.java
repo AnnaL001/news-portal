@@ -4,7 +4,7 @@ import com.anna.news_portal.base.News;
 
 public class DepartmentNews extends News {
   private int department_id;
-  private static final String NEWS_TYPE = "Departmental";
+  public static final String NEWS_TYPE = "Departmental";
 
   public DepartmentNews(String title, String content) {
     this.title = title;
