@@ -21,6 +21,7 @@ CREATE TABLE news (
   title varchar,
   content varchar,
   user_id int,
+  news_type varchar,
   department_id int,
   created_at timestamp
 );
