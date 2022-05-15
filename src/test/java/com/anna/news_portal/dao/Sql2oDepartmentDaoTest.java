@@ -36,6 +36,26 @@ class Sql2oDepartmentDaoTest {
     assertNotEquals(initialId, department.getId());
   }
 
+  @Test
+  @DisplayName("Test that a list of departments can be retrieved from the database")
+  public void getAll_returnsDepartmentsList_true(Department department) {
+    departmentDao.add(department);
+    assertEquals(1, departmentDao.getAll().size());
+  }
+
+  @Test
+  @DisplayName("Test that an empty list is returned if there are no departments listed in the database")
+  public void getAll_returnsEmptyListIfNoDepartment_true() {
+    assertEquals(0, departmentDao.getAll().size());
+  }
+
+  @Test
+  @DisplayName("Test that a department can be retrieved from the database")
+  public void get_returnsADepartment_true(Department department) {
+    departmentDao.add(department);
+    Department foundDepartment = departmentDao.get(department.getId());
+    assertEquals(department, foundDepartment);
+  }
 
   @AfterEach
   public void tearDown() {
