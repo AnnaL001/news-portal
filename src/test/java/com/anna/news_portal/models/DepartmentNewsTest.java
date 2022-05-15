@@ -32,4 +32,17 @@ class DepartmentNewsTest {
   public void newDepartmentNews_instantiatesWithNewsType_true(DepartmentNews departmentNews) {
     assertEquals(DepartmentNews.NEWS_TYPE, departmentNews.getNews_type());
   }
+
+  @Test
+  @DisplayName("Test that the department a news belongs to can be retrieved")
+  public void getDepartment_id_returnsCorrectDepartmentId_true(DepartmentNews departmentNews) {
+    assertEquals(0, departmentNews.getDepartment_id());
+  }
+
+  @Test
+  @DisplayName("Test that the department a news belongs to can be set as specified")
+  public void setDepartment_id_setsDepartmentIdCorrectly_true(DepartmentNews departmentNews) {
+    departmentNews.setDepartment_id(1);
+    assertEquals(1, departmentNews.getDepartment_id());
+  }
 }
