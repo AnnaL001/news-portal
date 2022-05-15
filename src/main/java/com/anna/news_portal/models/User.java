@@ -1,5 +1,9 @@
 package com.anna.news_portal.models;
 
+import com.anna.news_portal.base.News;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -9,6 +13,8 @@ public class User {
   protected String role;
   protected int department_id;
 
+  protected List<News> news;
+
   public static final String ROLE = "Normal user";
 
   public User(String name, String position, int department_id) {
@@ -16,6 +22,7 @@ public class User {
     this.position = position;
     this.department_id = department_id;
     this.role = ROLE;
+    this.news = new ArrayList<>();
   }
 
   public int getId() {
@@ -56,6 +63,14 @@ public class User {
 
   public void setDepartment_id(int department_id) {
     this.department_id = department_id;
+  }
+
+  public List<News> getNews() {
+    return news;
+  }
+
+  public void setNews(List<News> news) {
+    this.news = news;
   }
 
   @Override
