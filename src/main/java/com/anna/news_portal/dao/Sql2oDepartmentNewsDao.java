@@ -37,6 +37,7 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
 
     try(Connection connection = sql2o.open()) {
       departmentNewsList = connection.createQuery(selectQuery)
+              .throwOnMappingFailure(false)
               .executeAndFetch(DepartmentNews.class);
     } catch (Sql2oException exception){
       exception.printStackTrace();
@@ -54,6 +55,7 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
     try(Connection connection = sql2o.open()){
       departmentNews = connection.createQuery(selectQuery)
               .addParameter("id", id)
+              .throwOnMappingFailure(false)
               .executeAndFetchFirst(DepartmentNews.class);
     } catch (Sql2oException exception){
       exception.printStackTrace();

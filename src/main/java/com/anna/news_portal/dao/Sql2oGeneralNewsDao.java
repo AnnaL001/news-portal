@@ -37,6 +37,7 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
 
     try(Connection connection = sql2o.open()) {
       generalNewsList = connection.createQuery(selectQuery)
+              .throwOnMappingFailure(false)
               .executeAndFetch(GeneralNews.class);
     } catch (Sql2oException exception){
       exception.printStackTrace();
@@ -54,6 +55,7 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     try(Connection connection = sql2o.open()){
       generalNews = connection.createQuery(selectQuery)
               .addParameter("id", id)
+              .throwOnMappingFailure(false)
               .executeAndFetchFirst(GeneralNews.class);
     } catch (Sql2oException exception){
       exception.printStackTrace();
