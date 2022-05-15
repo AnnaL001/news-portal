@@ -19,7 +19,7 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
   @Override
   public void add(Department data) {
     try(Connection connection = sql2o.open()){
-      String insertQuery = "INSERT INTO departments (name, description, employee_count) VALUES (:name, :description, :employeeCount)";
+      String insertQuery = "INSERT INTO departments (name, description, employee_count) VALUES (:name, :description, :employee_count)";
       int id = (int) connection.createQuery(insertQuery, true)
               .bind(data)
               .executeUpdate()
