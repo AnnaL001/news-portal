@@ -45,16 +45,22 @@ class DepartmentNewsTest {
   }
 
   @Test
-  @DisplayName("Test that the department a news belongs to can be retrieved")
-  public void getDepartment_id_returnsCorrectDepartmentId_true(DepartmentNews departmentNews) {
-    assertEquals(0, departmentNews.getDepartment_id());
+  @DisplayName("Test that DepartmentNews class instance instantiates with owner's information")
+  public void newDepartmentNews_instantiatesWithOwnerData_true(DepartmentNews departmentNews) {
+    assertEquals(1, departmentNews.getUser_id());
+  }
+
+  @Test
+  @DisplayName("Test that DepartmentNews class instance instantiates with department information")
+  public void newDepartmentNews_instantiatesWithDepartmentData_true(DepartmentNews departmentNews) {
+    assertEquals(1, departmentNews.getDepartment_id());
   }
 
   @Test
   @DisplayName("Test that the department a news belongs to can be set as specified")
   public void setDepartment_id_setsDepartmentIdCorrectly_true(DepartmentNews departmentNews) {
-    departmentNews.setDepartment_id(1);
-    assertEquals(1, departmentNews.getDepartment_id());
+    departmentNews.setDepartment_id(2);
+    assertEquals(2, departmentNews.getDepartment_id());
   }
 
   @Test
@@ -117,7 +123,7 @@ class DepartmentNewsTest {
   @Test
   @DisplayName("Test that DepartmentNews class instances regarded as same if having same properties")
   public void equals_returnsTrueIfSame_true(DepartmentNews departmentNews) {
-    DepartmentNews departmentNews1 = new DepartmentNews("Email 2FA authentication","The 2FA authentication adds an extra layer of security thus ensure security of accounts");
+    DepartmentNews departmentNews1 = new DepartmentNews("Email 2FA authentication","The 2FA authentication adds an extra layer of security thus ensure security of accounts",1, 1);
     assertEquals(departmentNews, departmentNews1);
     assertEquals(departmentNews.hashCode(), departmentNews1.hashCode());
   }

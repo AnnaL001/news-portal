@@ -45,6 +45,12 @@ class GeneralNewsTest {
   }
 
   @Test
+  @DisplayName("Test that GeneralNews class instance instantiates with owner's id")
+  public void newGeneralNews_instantiatesWithOwnerData_true(GeneralNews generalNews) {
+    assertEquals(1, generalNews.getUser_id());
+  }
+
+  @Test
   @DisplayName("Test that news id is set as specified")
   public void setId_setsIDCorrectly_true(GeneralNews generalNews) {
     generalNews.setId(1);
@@ -105,7 +111,7 @@ class GeneralNewsTest {
   @Test
   @DisplayName("Test that GeneralNews class instances regarded as same if having same properties")
   public void equals_returnsTrueIfSame_true(GeneralNews generalNews) {
-    GeneralNews generalNews1 = new GeneralNews("Change in organizational email policy", "Emails are required to have 2FA authentication set");
+    GeneralNews generalNews1 = new GeneralNews("Change in organizational email policy", "Emails are required to have 2FA authentication set", 1);
     assertEquals(generalNews, generalNews1);
     assertEquals(generalNews.hashCode(), generalNews1.hashCode());
   }
