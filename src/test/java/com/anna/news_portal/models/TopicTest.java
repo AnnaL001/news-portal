@@ -16,9 +16,22 @@ class TopicTest {
   }
 
   @Test
+  @DisplayName("Test that Topic class instance instantiates with id of topic")
+  public void newTopic_instantiatesWithId_true(Topic topic) {
+    assertEquals(0, topic.getId());
+  }
+
+  @Test
   @DisplayName("Test that Topic class instance instantiates with name of topic")
   public void newTopic_instantiatesWithName_true(Topic topic) {
     assertEquals("Systems Security", topic.getName());
+  }
+
+  @Test
+  @DisplayName("Test that a topic's id is set as specified")
+  public void setName_setsTopicIdCorrectly_true(Topic topic) {
+    topic.setId(1);
+    assertEquals(1, topic.getId());
   }
 
   @Test
