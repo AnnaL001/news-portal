@@ -3,7 +3,7 @@ CREATE DATABASE news_portal;
 
 CREATE TABLE departments (
   id SERIAL PRIMARY KEY,
-  name varchar,
+  name varchar UNIQUE,
   description varchar,
   employee_count int
 );
@@ -28,7 +28,7 @@ CREATE TABLE news (
 
 CREATE TABLE topics (
   id SERIAL PRIMARY KEY,
-  name varchar
+  name varchar UNIQUE
 );
 
 CREATE TABLE news_topics (
