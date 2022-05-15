@@ -43,7 +43,7 @@ class DepartmentTest {
   @Test
   @DisplayName("Test that a Department class instance instantiates with default employee count")
   public void newDepartment_instantiatesWithDefaultEmployeeCount_true(Department department) {
-    assertEquals(0, department.getEmployee_count());
+    assertEquals(0, department.getEmployeeCount());
   }
 
   @Test
@@ -83,8 +83,8 @@ class DepartmentTest {
   @DisplayName("Test that employee count is set as specified")
   public void setEmployee_count_setsEmployeeCountCorrectly_true(Department department, User user) {
     department.getUsers().add(user);
-    department.setEmployee_count(department.getUsers().size());
-    assertEquals(1, department.getEmployee_count());
+    department.setEmployeeCount(department.getUsers().size());
+    assertEquals(1, department.getEmployeeCount());
   }
 
   @Test
