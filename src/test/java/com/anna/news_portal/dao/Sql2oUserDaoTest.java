@@ -24,6 +24,7 @@ class Sql2oUserDaoTest {
   static void beforeAll() {
     Sql2o sql2o = new Sql2o("jdbc:postgresql://localhost:5432/news_portal_test", "anna", "pol1234");
     userDao = new Sql2oUserDao(sql2o);
+    departmentDao = new Sql2oDepartmentDao(sql2o);
     connection = sql2o.open();
   }
 
