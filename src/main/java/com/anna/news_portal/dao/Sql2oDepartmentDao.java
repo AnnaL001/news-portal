@@ -75,6 +75,12 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
 
   @Override
   public void deleteAll() {
-
+    String deleteQuery = "DELETE FROM departments";
+    try(Connection connection = sql2o.open()){
+      connection.createQuery(deleteQuery)
+              .executeUpdate();
+    } catch (Sql2oException exception){
+      exception.printStackTrace();
+    }
   }
 }
