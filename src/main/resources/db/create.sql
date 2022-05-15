@@ -18,7 +18,7 @@ CREATE TABLE users (
 
 CREATE TABLE news (
   id SERIAL PRIMARY KEY,
-  title varchar,
+  title varchar UNIQUE,
   content varchar,
   user_id int,
   news_type varchar,
