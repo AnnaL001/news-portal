@@ -77,7 +77,7 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
 
   @Override
   public void delete(int id) {
-    String deleteQuery = "DELETE FROM users WHERE id = :id";
+    String deleteQuery = "DELETE FROM users WHERE id = :id AND role='Normal user'";
     try(Connection connection = sql2o.open()){
       connection.createQuery(deleteQuery)
               .addParameter("id", id)
@@ -89,7 +89,7 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
 
   @Override
   public void deleteAll() {
-    String deleteQuery = "DELETE FROM users";
+    String deleteQuery = "DELETE FROM users WHERE role = 'Normal user'";
     try(Connection connection = sql2o.open()){
       connection.createQuery(deleteQuery)
               .executeUpdate();
