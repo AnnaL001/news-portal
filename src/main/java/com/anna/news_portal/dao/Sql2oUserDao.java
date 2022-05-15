@@ -65,12 +65,26 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
 
   @Override
   public void update(User data) {
-
+    String updateQuery = "UPDATE topics SET (name, position, department_id) = (:name, :position, :department_id) WHERE id = :id";
+    try(Connection connection = sql2o.open()){
+      connection.createQuery(updateQuery)
+              .bind(data)
+              .executeUpdate();
+    } catch (Sql2oException exception){
+      exception.printStackTrace();
+    }
   }
 
   @Override
   public void delete(int id) {
-
+    String deleteQuery = "DELETE FROM users WHERE id = :id";
+    try(Connection connection = sql2o.open()){
+      connection.createQuery(deleteQuery)
+              .addParameter("id", id)
+              .executeUpdate();
+    } catch (Sql2oException exception){
+      exception.printStackTrace();
+    }
   }
 
   @Override
