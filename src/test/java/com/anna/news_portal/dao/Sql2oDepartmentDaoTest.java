@@ -57,6 +57,14 @@ class Sql2oDepartmentDaoTest {
     assertEquals(department, foundDepartment);
   }
 
+  @Test
+  @DisplayName("Test that departments' data can be cleared in the database")
+  public void deleteAll_deletesAllDepartments_true(Department department) {
+    departmentDao.add(department);
+    departmentDao.deleteAll();
+    assertEquals(0, departmentDao.getAll().size());
+  }
+
   @AfterEach
   public void tearDown() {
     departmentDao.deleteAll();
