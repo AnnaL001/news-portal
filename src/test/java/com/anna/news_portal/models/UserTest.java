@@ -1,15 +1,21 @@
 package com.anna.news_portal.models;
 
+import com.anna.news_portal.base.News;
 import com.anna.news_portal.parameter_resolvers.DepartmentParameterResolver;
+import com.anna.news_portal.parameter_resolvers.GeneralNewsParameterResolver;
 import com.anna.news_portal.parameter_resolvers.UserParameterResolver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(UserParameterResolver.class)
 @ExtendWith(DepartmentParameterResolver.class)
+@ExtendWith(GeneralNewsParameterResolver.class)
 class UserTest {
   @Test
   @DisplayName("Test that a User class instance instantiates correctly")
@@ -48,6 +54,12 @@ class UserTest {
   }
 
   @Test
+  @DisplayName("Test that a User class instance instantiates with an empty list of news posts posted")
+  public void newUser_instantiatesWithEmptyPostsListID(User user) {
+    assertEquals(0, user.getNews().size());
+  }
+
+  @Test
   @DisplayName("Test that a user's id is set as specified")
   public void setId_setsIDCorrectly_true(User user) {
     user.setId(1);
@@ -70,17 +82,26 @@ class UserTest {
 
   @Test
   @DisplayName("Test that a user's role is set as specified")
-  void setRole_setsRoleCorrectly_true(User user) {
+  public void setRole_setsRoleCorrectly_true(User user) {
     user.setRole("Normal users");
     assertEquals("Normal users", user.getRole());
   }
 
   @Test
   @DisplayName("Test that a user's department is set as specified")
-  void setDepartment_id_setsDepartmentCorrectly_true(User user, Department department) {
+  public void setDepartment_id_setsDepartmentCorrectly_true(User user, Department department) {
     department.setId(1);
     user.setDepartment_id(department.getId());
     assertEquals(1, user.getDepartment_id());
+  }
+
+  @Test
+  @DisplayName("Test that a user's news posts list is set as specified")
+  void setDepartment_id_setsPostsListCorrectly_true(User user, GeneralNews generalNews) {
+    generalNews.setId(1);
+    List<News> generalNewsList = new ArrayList<>(List.of(generalNews));
+    user.setNews(generalNewsList);
+    assertEquals(1, user.getNews().size());
   }
 
   @Test
