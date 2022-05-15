@@ -61,6 +61,26 @@ class Sql2oTopicDaoTest {
   }
 
   @Test
+  @DisplayName("Test that a topic's data can be updated")
+  public void update_updatesTopicData_true(Topic topic) {
+    topicDao.add(topic);
+    topic.setName("Information Security");
+    topicDao.update(topic);
+
+    // Retrieve updated topic
+    Topic updatedTopic = topicDao.get(topic.getId());
+    assertEquals(topic, updatedTopic);
+  }
+
+  @Test
+  @DisplayName("Test that a topic can be deleted")
+  public void delete_deletesATopic_true(Topic topic) {
+    topicDao.add(topic);
+    topicDao.delete(topic.getId());
+    assertFalse(topicDao.getAll().contains(topic));
+  }
+
+  @Test
   @DisplayName("Test that all topics listed can be deleted")
   public void deleteAll_deletesAllTopics_true(Topic topic) {
     topicDao.add(topic);
