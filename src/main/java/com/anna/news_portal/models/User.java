@@ -11,9 +11,10 @@ public class User {
 
   public static final String ROLE = "Normal user";
 
-  public User(String name, String position) {
+  public User(String name, String position, int department_id) {
     this.name = name;
     this.position = position;
+    this.department_id = department_id;
     this.role = ROLE;
   }
 
