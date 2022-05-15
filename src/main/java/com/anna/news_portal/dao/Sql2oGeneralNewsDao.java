@@ -80,7 +80,7 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     }
   }
 
-  public void addNewsTopics(GeneralNews generalNews, List<Topic> topics){
+  public void addTopics(GeneralNews generalNews, List<Topic> topics){
     String insertQuery = "INSERT INTO news_topics (news_id, topic_id) VALUES (:newsId, :topicId)";
 
     for(Topic topic: topics){
@@ -101,7 +101,7 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
   }
 
   public List<Topic> getTopics(int newsId){
-    String selectQuery = "SELECT topics.* FROM news JOIN news_topics ON (news.id = news_topics.news_id) JOIN topics ON (news_topics.topic_id = topic.id) WHERE news.id = :newsId AND news.news_type = 'General'";
+    String selectQuery = "SELECT topics.* FROM news JOIN news_topics ON (news.id = news_topics.news_id) JOIN topics ON (news_topics.topic_id = topics.id) WHERE news.id = :newsId AND news.news_type = 'General'";
     List<Topic> topicList;
 
     try(Connection connection = sql2o.open()) {
