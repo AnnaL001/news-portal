@@ -1,10 +1,9 @@
 package com.anna.news_portal.dao;
 
-import com.anna.news_portal.models.Department;
-import com.anna.news_portal.models.DepartmentNews;
-import com.anna.news_portal.models.User;
+import com.anna.news_portal.models.*;
 import com.anna.news_portal.parameter_resolvers.DepartmentNewsParameterResolver;
 import com.anna.news_portal.parameter_resolvers.DepartmentParameterResolver;
+import com.anna.news_portal.parameter_resolvers.TopicParameterResolver;
 import com.anna.news_portal.parameter_resolvers.UserParameterResolver;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,10 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(DepartmentNewsParameterResolver.class)
 @ExtendWith(UserParameterResolver.class)
 @ExtendWith(DepartmentParameterResolver.class)
+@ExtendWith(TopicParameterResolver.class)
 class Sql2oDepartmentNewsDaoTest {
   private static Sql2oDepartmentNewsDao departmentNewsDao;
   private static Sql2oUserDao userDao;
   private static Sql2oDepartmentDao departmentDao;
+  private static Sql2oTopicDao topicDao;
   private static Connection connection;
 
   @BeforeAll
@@ -30,6 +31,7 @@ class Sql2oDepartmentNewsDaoTest {
     departmentNewsDao = new Sql2oDepartmentNewsDao(sql2o);
     userDao = new Sql2oUserDao(sql2o);
     departmentDao = new Sql2oDepartmentDao(sql2o);
+    topicDao = new Sql2oTopicDao(sql2o);
     connection = sql2o.open();
   }
 
@@ -90,6 +92,26 @@ class Sql2oDepartmentNewsDaoTest {
   }
 
   @Test
+  @DisplayName("Test that a department post topics can be added")
+  public void addTopics_addsDepartmentNewsTopics_true(DepartmentNews departmentNews, Topic topic) {
+    departmentNewsDao.add(departmentNews);
+    Topic topic1 = new Topic("Information Security");
+    Topic[] topics = {topic, topic1};
+    departmentNewsDao.addTopics(departmentNews, Arrays.asList(topics));
+    assertEquals(Arrays.asList(topics), departmentNewsDao.getTopics(departmentNews.getId()));
+  }
+
+  @Test
+  @DisplayName("Test that a department news post topics can be retrieved")
+  public void getTopics_returnsDepartmentNewsTopics_true(DepartmentNews departmentNews, Topic topic) {
+    departmentNewsDao.add(departmentNews);
+    Topic topic1 = new Topic("Information Security");
+    Topic[] topics = {topic, topic1};
+    departmentNewsDao.addTopics(departmentNews, Arrays.asList(topics));
+    assertEquals(2, departmentNewsDao.getTopics(departmentNews.getId()).size());
+  }
+
+  @Test
   @DisplayName("Test that a department news post can be deleted")
   public void delete_deletesDepartmentNewsPost_false(DepartmentNews departmentNews) {
     departmentNewsDao.add(departmentNews);
@@ -110,6 +132,7 @@ class Sql2oDepartmentNewsDaoTest {
     departmentNewsDao.deleteAll();
     userDao.deleteAll();
     departmentDao.deleteAll();
+    topicDao.deleteAll();
   }
 
   @AfterAll

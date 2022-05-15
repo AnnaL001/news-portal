@@ -2,8 +2,10 @@ package com.anna.news_portal.dao;
 
 
 import com.anna.news_portal.models.GeneralNews;
+import com.anna.news_portal.models.Topic;
 import com.anna.news_portal.models.User;
 import com.anna.news_portal.parameter_resolvers.GeneralNewsParameterResolver;
+import com.anna.news_portal.parameter_resolvers.TopicParameterResolver;
 import com.anna.news_portal.parameter_resolvers.UserParameterResolver;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,11 +16,13 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(TopicParameterResolver.class)
 @ExtendWith(GeneralNewsParameterResolver.class)
 @ExtendWith(UserParameterResolver.class)
 class Sql2oGeneralNewsDaoTest {
   private static Sql2oGeneralNewsDao generalNewsDao;
   private static Sql2oUserDao userDao;
+  private static Sql2oTopicDao topicDao;
   private static Connection connection;
 
   @BeforeAll
@@ -26,6 +30,7 @@ class Sql2oGeneralNewsDaoTest {
     Sql2o sql2o = new Sql2o("jdbc:postgresql://localhost:5432/news_portal_test", "anna", "pol1234");
     generalNewsDao = new Sql2oGeneralNewsDao(sql2o);
     userDao = new Sql2oUserDao(sql2o);
+    topicDao = new Sql2oTopicDao(sql2o);
     connection = sql2o.open();
   }
 
@@ -84,6 +89,26 @@ class Sql2oGeneralNewsDaoTest {
   }
 
   @Test
+  @DisplayName("Test that a general news post topics can be added")
+  public void addTopics_addsGeneralNewsTopics_true(GeneralNews generalNews, Topic topic) {
+    generalNewsDao.add(generalNews);
+    Topic topic1 = new Topic("Information Security");
+    Topic[] topics = {topic, topic1};
+    generalNewsDao.addTopics(generalNews, Arrays.asList(topics));
+    assertEquals(Arrays.asList(topics), generalNewsDao.getTopics(generalNews.getId()));
+  }
+
+  @Test
+  @DisplayName("Test that a general news post topics can be retrieved")
+  public void getTopics_returnsGeneralNewsTopics_true(GeneralNews generalNews, Topic topic) {
+    generalNewsDao.add(generalNews);
+    Topic topic1 = new Topic("Information Security");
+    Topic[] topics = {topic, topic1};
+    generalNewsDao.addTopics(generalNews, Arrays.asList(topics));
+    assertEquals(2, generalNewsDao.getTopics(generalNews.getId()).size());
+  }
+
+  @Test
   @DisplayName("Test that a general news post can be deleted")
   public void delete_deletesGeneralNewsPost_false(GeneralNews generalNews) {
     generalNewsDao.add(generalNews);
@@ -103,6 +128,7 @@ class Sql2oGeneralNewsDaoTest {
   public void tearDown() {
     generalNewsDao.deleteAll();
     userDao.deleteAll();
+    topicDao.deleteAll();
   }
 
   @AfterAll
