@@ -2,6 +2,7 @@ package com.anna.news_portal.dao;
 
 import com.anna.news_portal.interfaces.NewsPortalDao;
 import com.anna.news_portal.models.GeneralNews;
+import com.anna.news_portal.models.Topic;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
@@ -11,9 +12,11 @@ import java.util.List;
 
 public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
   private final Sql2o sql2o;
+  private static Sql2oTopicDao topicDao;
 
   public Sql2oGeneralNewsDao(Sql2o sql2o) {
     this.sql2o = sql2o;
+    topicDao = new Sql2oTopicDao(sql2o);
   }
 
   @Override
@@ -75,6 +78,42 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     } catch (Sql2oException exception){
       exception.printStackTrace();
     }
+  }
+
+  public void addNewsTopics(GeneralNews generalNews, List<Topic> topics){
+    String insertQuery = "INSERT INTO news_topics (news_id, topic_id) VALUES (:newsId, :topicId)";
+
+    for(Topic topic: topics){
+      // Add topic to database if it doesn't exist
+      if(!topicDao.getAll().contains(topic)){
+        topicDao.add(topic);
+      }
+
+      try (Connection connection = sql2o.open()){
+        connection.createQuery(insertQuery)
+                .addParameter("newsId", generalNews.getId())
+                .addParameter("topicId", topic.getId())
+                .executeUpdate();
+      } catch (Sql2oException exception){
+        exception.printStackTrace();
+      }
+    }
+  }
+
+  public List<Topic> getTopics(int newsId){
+    String selectQuery = "SELECT topics.* FROM news JOIN news_topics ON (news.id = news_topics.news_id) JOIN topics ON (news_topics.topic_id = topic.id) WHERE news.id = :newsId AND news.news_type = 'General'";
+    List<Topic> topicList;
+
+    try(Connection connection = sql2o.open()) {
+      topicList = connection.createQuery(selectQuery)
+              .addParameter("newsId", newsId)
+              .throwOnMappingFailure(false)
+              .executeAndFetch(Topic.class);
+    } catch (Sql2oException exception){
+      exception.printStackTrace();
+      topicList = new ArrayList<>();
+    }
+    return topicList;
   }
 
   @Override
