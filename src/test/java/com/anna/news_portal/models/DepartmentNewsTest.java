@@ -45,4 +45,12 @@ class DepartmentNewsTest {
     departmentNews.setDepartment_id(1);
     assertEquals(1, departmentNews.getDepartment_id());
   }
+
+  @Test
+  @DisplayName("Test that DepartmentNews class instances regarded as same if having same properties")
+  public void equals_returnsTrueIfSame_true(DepartmentNews departmentNews) {
+    DepartmentNews departmentNews1 = new DepartmentNews("Email 2FA authentication","The 2FA authentication adds an extra layer of security thus ensure security of accounts");
+    assertEquals(departmentNews, departmentNews1);
+    assertEquals(departmentNews.hashCode(), departmentNews1.hashCode());
+  }
 }

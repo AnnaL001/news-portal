@@ -32,4 +32,12 @@ class GeneralNewsTest {
   public void newGeneralNews_instantiatesWithNewsType_true(GeneralNews generalNews) {
     assertEquals(GeneralNews.NEWS_TYPE, generalNews.getNews_type());
   }
+
+  @Test
+  @DisplayName("Test that GeneralNews class instances regarded as same if having same properties")
+  public void equals_returnsTrueIfSame_true(GeneralNews generalNews) {
+    GeneralNews generalNews1 = new GeneralNews("Change in organizational email policy", "Emails are required to have 2FA authentication set");
+    assertEquals(generalNews, generalNews1);
+    assertEquals(generalNews.hashCode(), generalNews1.hashCode());
+  }
 }

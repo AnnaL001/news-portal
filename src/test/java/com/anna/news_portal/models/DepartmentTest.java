@@ -102,4 +102,12 @@ class DepartmentTest {
     department.setNews(departmentNewsList);
     assertEquals(departmentNewsList, department.getNews());
   }
+
+  @Test
+  @DisplayName("Test that Department class instances are regarded as same if having same property values")
+  public void equals_returnsTrueIfSameProperties_true(Department department) {
+    Department department1 = new Department("Information Technology", "A department that manages information systems used and devised by the company");
+    assertEquals(department, department1);
+    assertEquals(department.hashCode(), department1.hashCode());
+  }
 }

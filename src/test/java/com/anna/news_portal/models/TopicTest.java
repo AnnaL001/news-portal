@@ -27,4 +27,12 @@ class TopicTest {
     topic.setName("Server Administration");
     assertEquals("Server Administration", topic.getName());
   }
+
+  @Test
+  @DisplayName("Test that Topic class instance are regarded as same if having same property values")
+  public void equals_returnsTrueIfSameProperties_true(Topic topic) {
+    Topic topic1 = new Topic("Systems Security");
+    assertEquals(topic, topic1);
+    assertEquals(topic.hashCode(), topic1.hashCode());
+  }
 }

@@ -82,4 +82,12 @@ class UserTest {
     user.setDepartment_id(department.getId());
     assertEquals(1, user.getDepartment_id());
   }
+
+  @Test
+  @DisplayName("Test that User class instances are regarded as same if having same property values")
+  public void equals_returnsSameIfSameProperties(User user) {
+    User user1 = new User("Jane Doe", "Chief Financial Officer");
+    assertEquals(user, user1);
+    assertEquals(user.hashCode(), user1.hashCode());
+  }
 }
