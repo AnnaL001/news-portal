@@ -8,14 +8,14 @@ public class Department {
   private int id;
   private String name;
   private String description;
-  private int employeeCount;
+  private int employee_count;
   private List<User> users;
   private List<DepartmentNews> news;
 
   public Department(String name, String description) {
     this.name = name;
     this.description = description;
-    this.employeeCount = 0;
+    this.employee_count = 0;
     this.users = new ArrayList<>();
     this.news = new ArrayList<>();
   }
@@ -44,12 +44,12 @@ public class Department {
     this.description = description;
   }
 
-  public int getEmployeeCount() {
-    return employeeCount;
+  public int getEmployee_count() {
+    return employee_count;
   }
 
-  public void setEmployeeCount(int employeeCount) {
-    this.employeeCount = employeeCount;
+  public void setEmployee_count(int employee_count) {
+    this.employee_count = employee_count;
   }
 
   public List<User> getUsers() {
@@ -73,11 +73,11 @@ public class Department {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Department that = (Department) o;
-    return employeeCount == that.employeeCount && Objects.equals(name, that.name) && Objects.equals(description, that.description);
+    return employee_count == that.employee_count && Objects.equals(name, that.name) && Objects.equals(description, that.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, description, employeeCount);
+    return Objects.hash(name, description, employee_count);
   }
 }
