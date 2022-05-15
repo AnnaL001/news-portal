@@ -28,6 +28,15 @@ class Sql2oDepartmentDaoTest {
     assertTrue(departmentDao.getAll().contains(department));
   }
 
+  @Test
+  @DisplayName("Test that a department is provided with a database generated id")
+  public void add_setsDepartmentId_true(Department department) {
+    int initialId = department.getId();
+    departmentDao.add(department);
+    assertNotEquals(initialId, department.getId());
+  }
+
+
   @AfterEach
   public void tearDown() {
     departmentDao.deleteAll();
