@@ -1,7 +1,11 @@
 package com.anna.news_portal.dao;
 
 import com.anna.news_portal.models.Department;
+import com.anna.news_portal.models.DepartmentNews;
+import com.anna.news_portal.models.User;
+import com.anna.news_portal.parameter_resolvers.DepartmentNewsParameterResolver;
 import com.anna.news_portal.parameter_resolvers.DepartmentParameterResolver;
+import com.anna.news_portal.parameter_resolvers.UserParameterResolver;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.sql2o.Connection;
@@ -10,14 +14,20 @@ import org.sql2o.Sql2o;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(DepartmentParameterResolver.class)
+@ExtendWith(UserParameterResolver.class)
+@ExtendWith(DepartmentNewsParameterResolver.class)
 class Sql2oDepartmentDaoTest {
   private static Connection connection;
   private static Sql2oDepartmentDao departmentDao;
+  private static Sql2oUserDao userDao;
+  private static Sql2oDepartmentNewsDao departmentNewsDao;
 
   @BeforeAll
   public static void beforeAll() {
     Sql2o sql2o = new Sql2o("jdbc:postgresql://localhost:5432/news_portal_test", "anna", "pol1234");
     departmentDao = new Sql2oDepartmentDao(sql2o);
+    userDao = new Sql2oUserDao(sql2o);
+    departmentNewsDao = new Sql2oDepartmentNewsDao(sql2o);
     connection = sql2o.open();
   }
 
@@ -73,6 +83,26 @@ class Sql2oDepartmentDaoTest {
   }
 
   @Test
+  @DisplayName("Test that a list of a department's users can be retrieved")
+  public void getUsers_returnsDepartmentUsers_true(Department department, User user) {
+    departmentDao.add(department);
+    user.setDepartment_id(department.getId());
+    userDao.add(user);
+
+    assertTrue(departmentDao.getUsers(department.getId()).contains(user));
+  }
+
+  @Test
+  @DisplayName("Test that a list of a department's news posts can be retrieved")
+  public void getNews_returnsDepartmentNews_true(Department department, DepartmentNews departmentNews) {
+    departmentDao.add(department);
+    departmentNews.setDepartment_id(department.getId());
+    departmentNewsDao.add(departmentNews);
+
+    assertTrue(departmentDao.getNews(department.getId()).contains(departmentNews));
+  }
+
+  @Test
   @DisplayName("Test that a department's data can be deleted")
   public void delete_deletesADepartment_false(Department department) {
     departmentDao.add(department);
@@ -91,6 +121,8 @@ class Sql2oDepartmentDaoTest {
   @AfterEach
   public void tearDown() {
     departmentDao.deleteAll();
+    userDao.deleteAll();
+    departmentNewsDao.deleteAll();
   }
 
   @AfterAll
