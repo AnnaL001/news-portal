@@ -2,6 +2,8 @@ package com.anna.news_portal.dao;
 
 import com.anna.news_portal.interfaces.NewsPortalDao;
 import com.anna.news_portal.models.Department;
+import com.anna.news_portal.models.DepartmentNews;
+import com.anna.news_portal.models.User;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
@@ -73,6 +75,41 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
     } catch (Sql2oException exception){
       exception.printStackTrace();
     }
+  }
+
+  public List<User> getUsers(int departmentId){
+    Department department = get(departmentId);
+    List<User> users;
+
+    String selectQuery = "SELECT * FROM users WHERE department_id = :departmentId";
+    try(Connection connection = sql2o.open()){
+      users = connection.createQuery(selectQuery)
+              .addParameter("departmentId", department.getId())
+              .executeAndFetch(User.class);
+    } catch (Sql2oException exception){
+      exception.printStackTrace();
+      users = new ArrayList<>();
+    }
+
+    return users;
+  }
+
+  public List<DepartmentNews> getNews(int departmentId){
+    Department department = get(departmentId);
+    List<DepartmentNews> departmentNewsList;
+
+    String selectQuery = "SELECT * FROM news WHERE department_id = :departmentId AND news_type = 'Departmental'";
+    try(Connection connection = sql2o.open()){
+      departmentNewsList = connection.createQuery(selectQuery)
+              .addParameter("departmentId", department.getId())
+              .throwOnMappingFailure(false)
+              .executeAndFetch(DepartmentNews.class);
+    } catch (Sql2oException exception){
+      exception.printStackTrace();
+      departmentNewsList = new ArrayList<>();
+    }
+
+    return departmentNewsList;
   }
 
   @Override
