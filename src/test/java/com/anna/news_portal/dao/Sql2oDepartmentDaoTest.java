@@ -22,7 +22,7 @@ class Sql2oDepartmentDaoTest {
   }
 
   @Test
-  @DisplayName("Test that a department's data can be added to the database")
+  @DisplayName("Test that a department's data can be added")
   public void add_addsDepartment_true(Department department) {
     departmentDao.add(department);
     assertTrue(departmentDao.getAll().contains(department));
@@ -37,24 +37,47 @@ class Sql2oDepartmentDaoTest {
   }
 
   @Test
-  @DisplayName("Test that a list of departments can be retrieved from the database")
+  @DisplayName("Test that a list of departments can be retrieved")
   public void getAll_returnsDepartmentsList_true(Department department) {
     departmentDao.add(department);
     assertEquals(1, departmentDao.getAll().size());
   }
 
   @Test
-  @DisplayName("Test that an empty list is returned if there are no departments listed in the database")
+  @DisplayName("Test that an empty list is returned if there are no departments listed")
   public void getAll_returnsEmptyListIfNoDepartment_true() {
     assertEquals(0, departmentDao.getAll().size());
   }
 
   @Test
-  @DisplayName("Test that a department can be retrieved from the database")
+  @DisplayName("Test that a department's data can be retrieved")
   public void get_returnsADepartment_true(Department department) {
     departmentDao.add(department);
     Department foundDepartment = departmentDao.get(department.getId());
     assertEquals(department, foundDepartment);
+  }
+
+  @Test
+  @DisplayName("Test that a department's data can be updated")
+  public void update_updatesDepartmentData_true(Department department) {
+    departmentDao.add(department);
+    // Update added department data
+    department.setName("IT");
+    department.setDescription("Handle all things related to company's information systems and software");
+    departmentDao.update(department);
+
+    // Retrieve updated department
+    Department updatedDepartment = departmentDao.get(department.getId());
+    assertEquals(department.getName(), updatedDepartment.getName());
+    assertEquals(department.getDescription(), updatedDepartment.getDescription());
+  }
+
+  @Test
+  @DisplayName("Test that a department's data can be deleted")
+  public void delete_deletesADepartment_false(Department department) {
+    departmentDao.add(department);
+    departmentDao.delete(department.getId());
+    assertFalse(departmentDao.getAll().contains(department));
   }
 
   @Test
