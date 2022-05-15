@@ -100,6 +100,7 @@ class Sql2oUserDaoTest {
   @AfterEach
   public void tearDown() {
     userDao.deleteAll();
+    departmentDao.deleteAll();
   }
 
   @AfterAll

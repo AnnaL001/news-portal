@@ -102,6 +102,7 @@ class Sql2oAdminDaoTest {
   @AfterEach
   public void tearDown() {
     adminDao.deleteAll();
+    departmentDao.deleteAll();
   }
 
   @AfterAll
