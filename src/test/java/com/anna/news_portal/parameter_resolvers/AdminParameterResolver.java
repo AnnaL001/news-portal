@@ -14,6 +14,6 @@ public class AdminParameterResolver implements ParameterResolver {
 
   @Override
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return new Admin("John Doe", "Systems Admin");
+    return new Admin("John Doe", "Systems Admin", 1);
   }
 }
