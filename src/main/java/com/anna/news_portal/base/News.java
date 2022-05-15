@@ -7,6 +7,7 @@ import org.joda.time.LocalDateTime;
 import java.sql.Timestamp;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class News {
   protected int id;
@@ -82,5 +83,18 @@ public abstract class News {
   public void setFormatted_created_date() {
     DateTimeZone zone = DateTimeZone.forID("Africa/Nairobi");
     this.formatted_created_date = new LocalDateTime(this.created_at, zone);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    News news = (News) o;
+    return user_id == news.user_id && Objects.equals(title, news.title) && Objects.equals(content, news.content) && Objects.equals(news_type, news.news_type);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(title, content, user_id, news_type);
   }
 }

@@ -7,4 +7,5 @@ public class Admin extends User{
     super(name, position);
     this.role = ROLE;
   }
+
 }

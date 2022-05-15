@@ -2,6 +2,7 @@ package com.anna.news_portal.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Department {
   private int id;
@@ -65,5 +66,18 @@ public class Department {
 
   public void setNews(List<DepartmentNews> news) {
     this.news = news;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Department that = (Department) o;
+    return employee_count == that.employee_count && Objects.equals(name, that.name) && Objects.equals(description, that.description);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, description, employee_count);
   }
 }

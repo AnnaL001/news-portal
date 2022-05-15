@@ -1,5 +1,7 @@
 package com.anna.news_portal.models;
 
+import java.util.Objects;
+
 public class User {
   protected int id;
   protected String name;
@@ -53,5 +55,18 @@ public class User {
 
   public void setDepartment_id(int department_id) {
     this.department_id = department_id;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    User user = (User) o;
+    return department_id == user.department_id && Objects.equals(name, user.name) && Objects.equals(position, user.position) && Objects.equals(role, user.role);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, position, role, department_id);
   }
 }
