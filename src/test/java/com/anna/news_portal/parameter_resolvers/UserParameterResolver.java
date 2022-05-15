@@ -15,6 +15,6 @@ public class UserParameterResolver implements ParameterResolver {
 
   @Override
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return new User("Jane Doe", "Chief Financial Officer", 1);
+    return new User("Jane Doe", "Chief Financial Officer", 0);
   }
 }
