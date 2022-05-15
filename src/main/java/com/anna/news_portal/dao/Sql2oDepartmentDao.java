@@ -65,12 +65,25 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
 
   @Override
   public void update(Department data) {
-
+    String updateQuery = "UPDATE departments SET (name, description, employee_count) = (:name, :description, :employee_count) WHERE id = :id";
+    try(Connection connection = sql2o.open()){
+      connection.createQuery(updateQuery)
+              .bind(data)
+              .executeUpdate();
+    } catch (Sql2oException exception){
+      exception.printStackTrace();
+    }
   }
 
   @Override
   public void delete(int id) {
-
+    String deleteQuery = "DELETE FROM departments WHERE id = :id";
+    try(Connection connection = sql2o.open()){
+      connection.createQuery(deleteQuery)
+              .executeUpdate();
+    } catch (Sql2oException exception){
+        exception.printStackTrace();
+    }
   }
 
   @Override
