@@ -80,6 +80,7 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
     String deleteQuery = "DELETE FROM departments WHERE id = :id";
     try(Connection connection = sql2o.open()){
       connection.createQuery(deleteQuery)
+              .addParameter("id", id)
               .executeUpdate();
     } catch (Sql2oException exception){
         exception.printStackTrace();
