@@ -14,6 +14,11 @@ import com.anna.news_portal.response.ApiResponse;
 import com.google.gson.Gson;
 import org.sql2o.Sql2o;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static java.lang.Integer.parseInt;
 import static spark.Spark.*;
 
@@ -121,8 +126,28 @@ public class App {
     });
 
     // READ USERS
+    get("/users", "application/json", (request, response) -> {
+      if(userDao.getAll().size() > 0){
+        List<Map<String, Object>> users = userDao.transformUsers(userDao.getAll());
+        ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(),"Success", new Gson().toJsonTree(users));
+        return gson.toJson(apiResponse);
+      } else {
+        throw new ApiException("No users listed", Response.NOT_FOUND);
+      }
+    });
 
     // READ USER
+    get("/users/:id", "application/json", (request, response) -> {
+      User user = userDao.get(parseInt(request.params("id")));
+
+      if(user != null){
+        Map<String, Object> userMap = userDao.transform(user);
+        ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(userMap));
+        return gson.toJson(apiResponse);
+      } else {
+        throw new ApiException(String.format("No user with the id: '%s' exists", request.params("id")), Response.NOT_FOUND);
+      }
+    });
 
     // READ DEPARTMENTS
     get("/departments", "application/json", (request, response) -> {
@@ -130,7 +155,7 @@ public class App {
         ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(departmentDao.getAll()));
         return gson.toJson(apiResponse);
       } else {
-        throw new ApiException("No departments listed in the database", Response.NOT_FOUND);
+        throw new ApiException("No departments listed", Response.NOT_FOUND);
       }
     });
 
