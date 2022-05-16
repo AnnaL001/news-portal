@@ -14,6 +14,6 @@ public class DepartmentNewsParameterResolver implements ParameterResolver {
 
   @Override
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return new DepartmentNews("Email 2FA authentication","The 2FA authentication adds an extra layer of security thus ensure security of accounts", 1, 1);
+    return new DepartmentNews("Email 2FA authentication","The 2FA authentication adds an extra layer of security thus ensure security of accounts");
   }
 }
