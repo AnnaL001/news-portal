@@ -48,8 +48,8 @@ public class Department {
     return employee_count;
   }
 
-  public void setEmployee_count(int employee_count) {
-    this.employee_count = employee_count;
+  public void setEmployee_count() {
+    this.employee_count = users.size();
   }
 
   public List<User> getUsers() {
