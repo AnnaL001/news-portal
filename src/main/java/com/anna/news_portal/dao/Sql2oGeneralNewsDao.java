@@ -62,7 +62,7 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
               .executeAndFetchFirst(GeneralNews.class);
     } catch (Sql2oException exception){
       exception.printStackTrace();
-      generalNews = new GeneralNews("", "", 0);
+      generalNews = new GeneralNews("", "");
     }
 
     return generalNews;
