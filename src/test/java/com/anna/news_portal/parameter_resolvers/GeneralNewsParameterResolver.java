@@ -14,6 +14,6 @@ public class GeneralNewsParameterResolver implements ParameterResolver {
 
   @Override
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return new GeneralNews("Change in organizational email policy", "Emails are required to have 2FA authentication set", 1);
+    return new GeneralNews("Change in organizational email policy", "Emails are required to have 2FA authentication set");
   }
 }
