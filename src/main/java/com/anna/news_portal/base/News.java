@@ -90,11 +90,11 @@ public abstract class News {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     News news = (News) o;
-    return user_id == news.user_id && Objects.equals(title, news.title) && Objects.equals(content, news.content) && Objects.equals(news_type, news.news_type);
+    return Objects.equals(title, news.title) && Objects.equals(content, news.content) && Objects.equals(news_type, news.news_type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, content, user_id, news_type);
+    return Objects.hash(title, content, news_type);
   }
 }
