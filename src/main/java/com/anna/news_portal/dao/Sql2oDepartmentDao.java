@@ -34,7 +34,7 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
 
   @Override
   public List<Department> getAll() {
-    String selectQuery = "SELECT * FROM departments ORDER BY name";
+    String selectQuery = "SELECT * FROM departments ORDER BY id";
     List<Department> departments;
 
     try(Connection connection = sql2o.open()) {
