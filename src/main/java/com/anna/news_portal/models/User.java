@@ -17,10 +17,10 @@ public class User {
 
   public static final String ROLE = "Normal user";
 
-  public User(String name, String position, int department_id) {
+  public User(String name, String position) {
     this.name = name;
     this.position = position;
-    this.department_id = department_id;
+    this.department_id = 0;
     this.role = ROLE;
     this.news = new ArrayList<>();
   }
@@ -78,11 +78,11 @@ public class User {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     User user = (User) o;
-    return department_id == user.department_id && Objects.equals(name, user.name) && Objects.equals(position, user.position) && Objects.equals(role, user.role);
+    return Objects.equals(name, user.name) && Objects.equals(position, user.position) && Objects.equals(role, user.role);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, position, role, department_id);
+    return Objects.hash(name, position, role);
   }
 }
