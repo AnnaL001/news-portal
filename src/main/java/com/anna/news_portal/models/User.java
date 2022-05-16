@@ -2,9 +2,7 @@ package com.anna.news_portal.models;
 
 import com.anna.news_portal.base.News;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class User {
   protected int id;
