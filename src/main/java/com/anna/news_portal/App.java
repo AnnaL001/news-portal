@@ -125,8 +125,26 @@ public class App {
     // READ USER
 
     // READ DEPARTMENTS
+    get("/departments", "application/json", (request, response) -> {
+      if(departmentDao.getAll().size() > 0){
+        ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(departmentDao.getAll()));
+        return gson.toJson(apiResponse);
+      } else {
+        throw new ApiException("No departments listed in the database", Response.NOT_FOUND);
+      }
+    });
 
     // READ DEPARTMENT
+    get("/departments/:id", "application/json", (request, response) -> {
+      Department department = departmentDao.get(parseInt(request.params("id")));
+
+      if(department != null){
+        ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(department));
+        return gson.toJson(apiResponse);
+      } else {
+        throw new ApiException(String.format("No department with the id: '%s' exists", request.params("id")), Response.NOT_FOUND);
+      }
+    });
 
     // READ DEPARTMENT USERS
 
