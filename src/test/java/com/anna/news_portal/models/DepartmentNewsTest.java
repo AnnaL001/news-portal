@@ -47,13 +47,13 @@ class DepartmentNewsTest {
   @Test
   @DisplayName("Test that DepartmentNews class instance instantiates with owner's information")
   public void newDepartmentNews_instantiatesWithOwnerData_true(DepartmentNews departmentNews) {
-    assertEquals(1, departmentNews.getUser_id());
+    assertEquals(0, departmentNews.getUser_id());
   }
 
   @Test
   @DisplayName("Test that DepartmentNews class instance instantiates with department information")
   public void newDepartmentNews_instantiatesWithDepartmentData_true(DepartmentNews departmentNews) {
-    assertEquals(1, departmentNews.getDepartment_id());
+    assertEquals(0, departmentNews.getDepartment_id());
   }
 
   @Test
@@ -123,7 +123,7 @@ class DepartmentNewsTest {
   @Test
   @DisplayName("Test that DepartmentNews class instances regarded as same if having same properties")
   public void equals_returnsTrueIfSame_true(DepartmentNews departmentNews) {
-    DepartmentNews departmentNews1 = new DepartmentNews("Email 2FA authentication","The 2FA authentication adds an extra layer of security thus ensure security of accounts",1, 1);
+    DepartmentNews departmentNews1 = new DepartmentNews("Email 2FA authentication","The 2FA authentication adds an extra layer of security thus ensure security of accounts");
     assertEquals(departmentNews, departmentNews1);
     assertEquals(departmentNews.hashCode(), departmentNews1.hashCode());
   }
