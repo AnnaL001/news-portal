@@ -1,19 +1,24 @@
 package com.anna.news_portal.dao;
 
 import com.anna.news_portal.interfaces.NewsPortalDao;
+import com.anna.news_portal.models.Department;
 import com.anna.news_portal.models.User;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Sql2oUserDao implements NewsPortalDao<User> {
   private final Sql2o sql2o;
+  private static Sql2oDepartmentDao departmentDao;
 
   public Sql2oUserDao(Sql2o sql2o) {
     this.sql2o = sql2o;
+    departmentDao = new Sql2oDepartmentDao(sql2o);
   }
 
   @Override
@@ -32,7 +37,7 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
 
   @Override
   public List<User> getAll() {
-    String selectQuery = "SELECT * FROM users ORDER BY name";
+    String selectQuery = "SELECT * FROM users ORDER BY id";
     List<User> users;
 
     try(Connection connection = sql2o.open()){
@@ -73,6 +78,25 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
     } catch (Sql2oException exception){
       exception.printStackTrace();
     }
+  }
+
+  public Map<String, Object> transform(User user){
+    Department department = departmentDao.get(user.getDepartment_id());
+    Map<String, Object> userMap = new HashMap<>();
+    userMap.put("id", user.getId());
+    userMap.put("name", user.getName());
+    userMap.put("position", user.getPosition());
+    userMap.put("role", user.getRole());
+    userMap.put("department", department.getName());
+    return userMap;
+  }
+
+  public List<Map<String, Object>> transformUsers(List<User> users){
+    List<Map<String, Object>> transformedList = new ArrayList<>();
+    for(User user: users){
+      transformedList.add(transform(user));
+    }
+    return transformedList;
   }
 
   @Override
