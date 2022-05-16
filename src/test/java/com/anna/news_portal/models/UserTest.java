@@ -49,7 +49,7 @@ class UserTest {
 
   @Test
   @DisplayName("Test that a User class instance instantiates with a default department ID")
-  public void newUser_instantiatesWithDepartmentID(User user) {
+  public void newUser_instantiatesWithDefaultDepartmentID(User user) {
     assertEquals(0, user.getDepartment_id());
   }
 
@@ -107,7 +107,7 @@ class UserTest {
   @Test
   @DisplayName("Test that User class instances are regarded as same if having same property values")
   public void equals_returnsSameIfSameProperties(User user) {
-    User user1 = new User("Jane Doe", "Chief Financial Officer", 0);
+    User user1 = new User("Jane Doe", "Chief Financial Officer");
     assertEquals(user, user1);
     assertEquals(user.hashCode(), user1.hashCode());
   }
