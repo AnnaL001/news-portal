@@ -58,7 +58,7 @@ public class Sql2oAdminDao implements NewsPortalDao<Admin> {
               .executeAndFetchFirst(Admin.class);
     } catch (Sql2oException exception){
       exception.printStackTrace();
-      admin = new Admin("", "", 0);
+      admin = new Admin("", "");
     }
 
     return admin;
