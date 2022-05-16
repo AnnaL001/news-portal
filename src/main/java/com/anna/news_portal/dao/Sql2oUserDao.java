@@ -57,7 +57,7 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
               .executeAndFetchFirst(User.class);
     } catch (Sql2oException exception){
       exception.printStackTrace();
-      user = new User("", "", 0);
+      user = new User("", "");
     }
 
     return user;
