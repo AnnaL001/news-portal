@@ -83,7 +83,7 @@ class DepartmentTest {
   @DisplayName("Test that employee count is set as specified")
   public void setEmployee_count_setsEmployeeCountCorrectly_true(Department department, User user) {
     department.getUsers().add(user);
-    department.setEmployee_count(department.getUsers().size());
+    department.setEmployee_count();
     assertEquals(1, department.getEmployee_count());
   }
 
