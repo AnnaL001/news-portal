@@ -63,7 +63,7 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
               .executeAndFetchFirst(DepartmentNews.class);
     } catch (Sql2oException exception){
       exception.printStackTrace();
-      departmentNews = new DepartmentNews("", "", 0, 0);
+      departmentNews = new DepartmentNews("", "");
     }
 
     return departmentNews;
