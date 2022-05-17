@@ -16,8 +16,7 @@ The Java application is a REST API that provides access to endpoints that allow 
 - Otherwise to view the web application navigate to the link below <br>
 
 ## Behavior Driven Development(BDD)
-| **Behavior**                              | **Input Example**                           | **Output**                                                         |
-|-------------------------------------------|:--------------------------------------------|:-------------------------------------------------------------------|
+
 
 ## Dependencies
 
