@@ -14,8 +14,7 @@ import com.anna.news_portal.response.ApiResponse;
 import com.google.gson.Gson;
 import org.sql2o.Sql2o;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -172,9 +171,38 @@ public class App {
     });
 
     // READ DEPARTMENT USERS
+    get("/departments/:id/users", "application/json", (request, response) -> {
+      Department department = departmentDao.get(parseInt(request.params("id")));
+
+      if(department != null){
+        List<User> departmentUsers = departmentDao.getUsers(department.getId());
+        if(departmentUsers.size() > 0){
+          ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(userDao.transformUsers(departmentUsers)));
+          return gson.toJson(apiResponse);
+        } else {
+          throw new ApiException(String.format("No users in department with the id: '%s' listed", request.params("id")), Response.NOT_FOUND);
+        }
+      } else {
+        throw new ApiException(String.format("No department with the id: '%s' exists", request.params("id")), Response.NOT_FOUND);
+      }
+    });
 
     // READ DEPARTMENT NEWS
+    get("/departments/:id/news", "application/json", (request, response) -> {
+      Department department = departmentDao.get(parseInt(request.params("id")));
 
+      if(department != null){
+        List<DepartmentNews> departmentNews = departmentDao.getNews(department.getId());
+        if(departmentNews.size() > 0){
+          ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(departmentNewsDao.transformDepartmentNewsList(departmentNews)));
+          return gson.toJson(apiResponse);
+        } else {
+          throw new ApiException(String.format("No news posts in department with the id: '%s' listed", request.params("id")), Response.NOT_FOUND);
+        }
+      } else {
+        throw new ApiException(String.format("No department with the id: '%s' exists", request.params("id")), Response.NOT_FOUND);
+      }
+    });
 
     //FILTERS
     exception(ApiException.class, (exception, request, response) -> {
