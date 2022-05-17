@@ -10,6 +10,7 @@ import org.sql2o.Sql2oException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
   private final Sql2o sql2o;
@@ -93,6 +94,7 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
 
     return users;
   }
+
 
   public List<DepartmentNews> getNews(int departmentId){
     Department department = get(departmentId);
