@@ -30,7 +30,7 @@ The Java application is a REST API that provides access to endpoints that allow 
 ## Technologies Used
 - Java 
 - Postgresql
-- Postman : For testing endpoints
+- Postman : For testing API endpoints
 
 ## Support and contact details
 
