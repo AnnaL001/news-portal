@@ -87,7 +87,7 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
     userMap.put("name", user.getName());
     userMap.put("position", user.getPosition());
     userMap.put("role", user.getRole());
-    userMap.put("department", department.getName());
+    userMap.put("department", department);
     return userMap;
   }
 
