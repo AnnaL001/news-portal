@@ -1,23 +1,27 @@
 package com.anna.news_portal.dao;
 
 import com.anna.news_portal.interfaces.NewsPortalDao;
-import com.anna.news_portal.models.DepartmentNews;
-import com.anna.news_portal.models.GeneralNews;
-import com.anna.news_portal.models.Topic;
+import com.anna.news_portal.models.*;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
   private final Sql2o sql2o;
   private static Sql2oTopicDao topicDao;
+  private static Sql2oDepartmentDao departmentDao;
+  private static Sql2oUserDao userDao;
 
   public Sql2oDepartmentNewsDao(Sql2o sql2o) {
     this.sql2o = sql2o;
     topicDao = new Sql2oTopicDao(sql2o);
+    departmentDao = new Sql2oDepartmentDao(sql2o);
+    userDao = new Sql2oUserDao(sql2o);
   }
 
   @Override
@@ -115,6 +119,30 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
       topicList = new ArrayList<>();
     }
     return topicList;
+  }
+
+  public Map<String, Object> transformDepartmentNews(DepartmentNews departmentNews){
+    Department department = departmentDao.get(departmentNews.getDepartment_id());
+    User user = userDao.get(departmentNews.getUser_id());
+    Map<String, Object> newsMap = new HashMap<>();
+    newsMap.put("title", departmentNews.getTitle());
+    newsMap.put("content", departmentNews.getContent());
+    newsMap.put("owner", userDao.transform(user));
+    newsMap.put("department", department);
+    newsMap.put("created_at", departmentNews.getCreated_at());
+    newsMap.put("formatted_created_at", departmentNews.getFormatted_created_date());
+    newsMap.put("news_type", departmentNews.getNews_type());
+    return newsMap;
+  }
+
+  public List<Map<String, Object>> transformDepartmentNewsList(List<DepartmentNews> departmentNewsList){
+    List<Map<String, Object>> newsMapList = new ArrayList<>();
+
+    for(DepartmentNews departmentNews: departmentNewsList){
+      newsMapList.add(transformDepartmentNews(departmentNews));
+    }
+
+    return newsMapList;
   }
 
   @Override
