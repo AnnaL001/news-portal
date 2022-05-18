@@ -73,27 +73,24 @@ The Java application is a REST API that provides access to endpoints that allow 
   ```
   {
     "title": "A message from the incoming department head",
-    "content": "As we usher in the next chapter in the company's operation, the incoming department head has a few words of encouragement"
- }
+    "content": "As we usher in the next chapter in the company's operation, the incoming department head has a few words of encouragement" }
  ```
  
  * URL: /departments/:id/admins/
    HTTP VERB: POST
    DESCRIPTION: Add an admin to a department
    Sample input 
-   ```
-   {
+   ``` {
     "name": "Bobby Doe",
     "position": "Systems Admin"
-   }
+    }
    ```
    
  * URL: /admins/:id/news
    HTTP VERB: POST
    DESCRIPTION: Add a general news post by an admin
    Sample input 
-   ```
-   {
+   ``` {
     "title": "Email two factor Authentication",
     "content": "It is recommended to implement two factor authentication in order to add an extra layer"
    }
@@ -103,11 +100,10 @@ The Java application is a REST API that provides access to endpoints that allow 
    HTTP VERB: POST
    DESCRIPTION: Add a department news post by admin
    Sample input
-   ```
-   {
+   ``` {
     "title": "A message from the incoming department head",
     "content": "As we usher in the next chapter in the company's operation, the incoming department head has a few words of encouragement"
-  }
+    }
   ```
   
   * URL: /users/:userId/news/:newsId/topics
