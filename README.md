@@ -85,7 +85,7 @@ The Java application is a REST API that provides access to endpoints that allow 
    {
     "name": "Bobby Doe",
     "position": "Systems Admin"
-    }
+   }
    ```
    
  * URL: /admins/:id/news <br>
@@ -105,8 +105,8 @@ The Java application is a REST API that provides access to endpoints that allow 
    Sample input
    ``` 
     {
-    "title": "A message from the incoming department head",
-    "content": "As we usher in the next chapter in the company's operation, the incoming department head has a few words of encouragement"
+      "title": "A message from the incoming department head",
+      "content": "As we usher in the next chapter in the company's operation, the incoming department head has a few words of encouragement"
     }
     ```
   
