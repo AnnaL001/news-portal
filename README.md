@@ -16,7 +16,12 @@ The Java application is a REST API that provides access to endpoints that allow 
 - Otherwise to view the web application navigate to the link below <br>
 
 ## Endpoints
-
+| **Url**                              | **HTTP verb**       | **Description**                      | **Sample input**                 |
+|--------------------------------------|:--------------------|:-------------------------------------|:---------------------------------|
+| /departments                         | POST                | Add a department                     |  ```{
+    "name": "Finance",
+    "description": "Handles all things money"
+}```|        
 
 ## Dependencies
 
