@@ -40,7 +40,7 @@ public class App {
       }
     });
 
-    // CREATE GENERAL NEWS
+    // CREATE GENERAL NEWS BY USER
     post("/users/:id/news/new", "application/json", (request, response) -> {
       User user = userDao.get(parseInt(request.params("id")));
       GeneralNews generalNews = gson.fromJson(request.body(), GeneralNews.class);
@@ -65,7 +65,7 @@ public class App {
       }
     });
 
-    // CREATE DEPARTMENT NEWS
+    // CREATE DEPARTMENT NEWS BY USER
     post("/departments/:departmentId/user/:userId/news/new", "application/json", (request, response) -> {
       Department department = departmentDao.get(parseInt(request.params("departmentId")));
       User user = userDao.get(parseInt(request.params("userId")));
@@ -93,6 +93,10 @@ public class App {
         return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "Success"));
       }
     });
+
+    // CREATE GENERAL NEWS POST BY ADMIN
+
+    // CREATE DEPARTMENT NEWS POST BY ADMIN
 
     // CREATE USER
     post("/departments/:id/users/new", "application/json", (request, response) -> {
