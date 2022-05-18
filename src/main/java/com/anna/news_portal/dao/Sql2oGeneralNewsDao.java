@@ -92,6 +92,8 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
       // Add topic to database if it doesn't exist
       if(!topicDao.getAll().contains(topic)){
         topicDao.add(topic);
+      } else {
+        // Fetch topic Id
       }
 
       try (Connection connection = sql2o.open()){
@@ -123,10 +125,12 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
 
   public Map<String, Object> transformGeneralNews(GeneralNews generalNews){
     User user = userDao.get(generalNews.getUser_id());
+    List<Topic> topics = getTopics(generalNews.getId());
     Map<String, Object> newsMap = new HashMap<>();
     newsMap.put("title", generalNews.getTitle());
     newsMap.put("content", generalNews.getContent());
     newsMap.put("owner", userDao.transform(user));
+    newsMap.put("topics", topics);
     newsMap.put("created_at", generalNews.getCreated_at());
     newsMap.put("formatted_created_at", generalNews.getFormatted_created_date());
     newsMap.put("news_type", generalNews.getNews_type());
