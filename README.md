@@ -33,9 +33,9 @@ The Java application is a REST API that provides access to endpoints that allow 
 | /departments/:departmentId/admins/:adminId/news/:newsId/delete | DELETE | Delete department news post by owner(admin) |
 | /admins/:adminId/news/:newsId/delete | DELETE | Delete general news post by owner (admin) |
 ### POST
-* URL: /departments
-  HTTP VERB: POST
-  DESCRIPTION: Add a department
+* URL: /departments <br>
+  HTTP VERB: POST <br>
+  DESCRIPTION: Add a department <br>
   Sample input
   ``` 
   {
@@ -44,9 +44,9 @@ The Java application is a REST API that provides access to endpoints that allow 
   } 
   ```
 
-* URL: /departments/:id/users
-  HTTP VERB: POST
-  DESCRIPTION: Add a user in department
+* URL: /departments/:id/users <br>
+  HTTP VERB: POST <br>
+  DESCRIPTION: Add a user in department <br>
   Sample input
   ```
   {
@@ -55,9 +55,9 @@ The Java application is a REST API that provides access to endpoints that allow 
   } 
   ```
   
-* URL: /users/:id/news
-  HTTP VERB: POST
-  DESCRIPTION: Add a general news post by a user
+* URL: /users/:id/news <br>
+  HTTP VERB: POST <br>
+  DESCRIPTION: Add a general news post by a user <br>
   Sample input
   ``` 
   {
@@ -66,19 +66,19 @@ The Java application is a REST API that provides access to endpoints that allow 
   } 
   ```
   
-* URL: /departments/:departmentId/user/:userId/news
-  HTTP VERB: POST
-  DESCRIPTION: Add a department news post by a user
+* URL: /departments/:departmentId/user/:userId/news <br>
+  HTTP VERB: POST <br>
+  DESCRIPTION: Add a department news post by a user <br>
   Sample input
   ```
   {
     "title": "A message from the incoming department head",
-    "content": "As we usher in the next chapter in the company's operation, the incoming department head has a few words of encouragement" }
- ```
+    "content": "As we usher in the next chapter in the company's operation, the incoming department head has a few words of encouragement" 
+  } ```
  
- * URL: /departments/:id/admins/
-   HTTP VERB: POST
-   DESCRIPTION: Add an admin to a department
+ * URL: /departments/:id/admins/ <br>
+   HTTP VERB: POST <br>
+   DESCRIPTION: Add an admin to a department <br>
    Sample input 
    ``` {
     "name": "Bobby Doe",
@@ -86,9 +86,9 @@ The Java application is a REST API that provides access to endpoints that allow 
     }
    ```
    
- * URL: /admins/:id/news
-   HTTP VERB: POST
-   DESCRIPTION: Add a general news post by an admin
+ * URL: /admins/:id/news <br>
+   HTTP VERB: POST <br>
+   DESCRIPTION: Add a general news post by an admin<br>
    Sample input 
    ``` {
     "title": "Email two factor Authentication",
@@ -96,19 +96,19 @@ The Java application is a REST API that provides access to endpoints that allow 
    }
    ```
    
- * URL: /departments/:departmentId/admins/:adminId/news
-   HTTP VERB: POST
-   DESCRIPTION: Add a department news post by admin
+ * URL: /departments/:departmentId/admins/:adminId/news <br>
+   HTTP VERB: POST <br>
+   DESCRIPTION: Add a department news post by admin <br>
    Sample input
    ``` {
     "title": "A message from the incoming department head",
     "content": "As we usher in the next chapter in the company's operation, the incoming department head has a few words of encouragement"
     }
-  ```
+    ```
   
-  * URL: /users/:userId/news/:newsId/topics
-    HTTP VERB: POST
-    DESCRIPTION: Add topics to general news post by user
+  * URL: /users/:userId/news/:newsId/topics <br>
+    HTTP VERB: POST <br>
+    DESCRIPTION: Add topics to general news post by user <br>
     Sample input
     ```
     [
@@ -118,9 +118,9 @@ The Java application is a REST API that provides access to endpoints that allow 
     ]
     ```
     
-  * URL: /admins/:adminId/news/:newsId/topics
-    HTTP VERB: POST
-    DESCRIPTION: Add topics to general news post by admin
+  * URL: /admins/:adminId/news/:newsId/topics <br>
+    HTTP VERB: POST <br>
+    DESCRIPTION: Add topics to general news post by admin <br>
     Sample input
     ```[
      {"name": "Systems security"},
