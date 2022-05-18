@@ -32,7 +32,7 @@ public class Sql2oTopicDao implements NewsPortalDao<Topic> {
 
   @Override
   public List<Topic> getAll() {
-    String selectQuery = "SELECT * FROM topics ORDER BY name";
+    String selectQuery = "SELECT * FROM topics ORDER BY id";
     List<Topic> topics;
 
     try(Connection connection = sql2o.open()){
