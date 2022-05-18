@@ -2,7 +2,7 @@
 A REST API for querying and retrieving scoped news and information
 
 ## Description
-The Java application is a REST API that provides access to endpoints that allow employees to create and retrieve news/articles/posts available to all employees. 
+The Java application is a REST API that provides access to endpoints that allow employees to create and retrieve news/articles/posts available to all employees and those available by navigating to a department. Aside from that there are endpoints to create and retrieve departments and users. There are also endpoints that allow an admin to delete users let go by the company and allow a user/admin that created a post to delete the corresponding post.
 
 #### By **[Lynn Nyangon](https://github.com/AnnaL001)**
 
@@ -15,7 +15,7 @@ The Java application is a REST API that provides access to endpoints that allow 
 - In the case of IntelliJ, to navigate you can reference their documentation https://www.jetbrains.com/help/idea/getting-started.html
 - Otherwise to view the web application navigate to the link below <br>
 
-## Behavior Driven Development(BDD)
+## Endpoints
 
 
 ## Dependencies
