@@ -16,12 +16,23 @@ The Java application is a REST API that provides access to endpoints that allow 
 - Otherwise to view the web application navigate to the link below <br>
 
 ## Endpoints
-| **Url**                              | **HTTP verb**       | **Description**                      | **Sample input**                 |
-|--------------------------------------|:--------------------|:-------------------------------------|:---------------------------------|
-| /departments                         | POST                | Add a department                     |  ```{
-    "name": "Finance",
-    "description": "Handles all things money"
-}```|        
+### GET & DELETE
+| **Url**                              | **HTTP verb**       | **Description**                      |
+|--------------------------------------|:--------------------|:-------------------------------------|
+| /departments                         | GET                | Retrieve departments                  |    
+| /users                               | GET                | Retrieve users                        |
+| /departments/:id                     | GET                | Retrieve a department                 |
+| /users/:id                           | GET                | Retrieve a user                       |
+| /departments/:id/users              | GET                | Retrieve users/employees in a department |
+| /departments/:id/news               | GET               | Retrieve news associated with a department |
+| /news                               | GET               | Retrieve general news                   |
+| /topics                             | GET               | Retrieve news topics                    |
+| /users/:userId/news/:newsId/delete  | DELETE            | Delete general news post by owner (user) |
+| /departments/:departmentId/users/:userId/news/:newsId/delete | DELETE     | Delete department news post by owner(user)|
+| /admins/:adminId/users/:userId/delete | DELETE  | Delete user by admin |
+| /departments/:departmentId/admins/:adminId/news/:newsId/delete | DELETE | Delete department news post by owner(admin) |
+| /admins/:adminId/news/:newsId/delete | DELETE | Delete general news post by owner (admin) |
+### POST
 
 ## Dependencies
 
