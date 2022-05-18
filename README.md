@@ -37,10 +37,12 @@ The Java application is a REST API that provides access to endpoints that allow 
   HTTP VERB: POST
   DESCRIPTION: Add a department
   Sample input
-  ``` {
+  ``` 
+  {
     "name": "Finance",
     "description": "Handles all things money"
-  } ```
+  } 
+  ```
 
 * URL: /departments/:id/users
   HTTP VERB: POST
