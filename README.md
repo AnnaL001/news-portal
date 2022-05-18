@@ -48,76 +48,92 @@ The Java application is a REST API that provides access to endpoints that allow 
   HTTP VERB: POST
   DESCRIPTION: Add a user in department
   Sample input
-  ``` {
+  ```
+  {
     "name": "Lucian Doe",
     "position": "Project manager"
-  } ```
+  } 
+  ```
   
 * URL: /users/:id/news
   HTTP VERB: POST
   DESCRIPTION: Add a general news post by a user
   Sample input
-  ``` {
+  ``` 
+  {
     "title": "Email 2FA Authentication",
     "content": "It is recommended to implement 2FA authentication in order to add an extra layer"
-  } ```
+  } 
+  ```
   
 * URL: /departments/:departmentId/user/:userId/news
   HTTP VERB: POST
   DESCRIPTION: Add a department news post by a user
   Sample input
-  ```{
+  ```
+  {
     "title": "A message from the incoming department head",
     "content": "As we usher in the next chapter in the company's operation, the incoming department head has a few words of encouragement"
- }```
+ }
+ ```
  
  * URL: /departments/:id/admins/
    HTTP VERB: POST
    DESCRIPTION: Add an admin to a department
    Sample input 
-   ```{
+   ```
+   {
     "name": "Bobby Doe",
     "position": "Systems Admin"
-   }```
+   }
+   ```
    
  * URL: /admins/:id/news
    HTTP VERB: POST
    DESCRIPTION: Add a general news post by an admin
    Sample input 
-   ```{
+   ```
+   {
     "title": "Email two factor Authentication",
     "content": "It is recommended to implement two factor authentication in order to add an extra layer"
-   }```
+   }
+   ```
    
  * URL: /departments/:departmentId/admins/:adminId/news
    HTTP VERB: POST
    DESCRIPTION: Add a department news post by admin
    Sample input
-   ```{
+   ```
+   {
     "title": "A message from the incoming department head",
     "content": "As we usher in the next chapter in the company's operation, the incoming department head has a few words of encouragement"
-  }```
+  }
+  ```
   
   * URL: /users/:userId/news/:newsId/topics
     HTTP VERB: POST
     DESCRIPTION: Add topics to general news post by user
     Sample input
-    ```[
+    ```
+    [
      {"name": "Systems security"},
      {"name": "Penetration testing"},
      {"name": "Cyber security"}
-    ]```
+    ]
+    ```
     
   * URL: /admins/:adminId/news/:newsId/topics
     HTTP VERB: POST
     DESCRIPTION: Add topics to general news post by admin
     Sample input
-    ```[
+    ```
+    [
      {"name": "Systems security"},
      {"name": "Penetration testing"},
      {"name": "Cyber security"},
      {"name": "Hacking"}
-    ]```
+    ]
+    ```
     
 
 ## Dependencies
