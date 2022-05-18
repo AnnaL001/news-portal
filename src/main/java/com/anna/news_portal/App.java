@@ -95,8 +95,65 @@ public class App {
     });
 
     // CREATE GENERAL NEWS POST BY ADMIN
+    post("/admins/:id/news/new", "application/json", (request, response) -> {
+      Admin admin = adminDao.get(parseInt(request.params("id")));
+      GeneralNews generalNews = gson.fromJson(request.body(), GeneralNews.class);
+
+      // Set news type to general if not null
+      if(generalNews != null){
+        generalNews.setNews_type(GeneralNews.NEWS_TYPE);
+      } else {
+        throw new ApiException("No input provided", Response.BAD_REQUEST);
+      }
+
+      // if admin not found
+      if(admin == null){
+        throw new ApiException(String.format("No admin with the id: '%s' exists", request.params("id")), Response.NOT_FOUND);
+      } else if (generalNewsDao.getAll().contains(generalNews)){
+        // if duplicate data
+        throw new ApiException("Duplicate record", Response.CONFLICT);
+      } else {
+        // Set owner of news
+        generalNews.setUser_id(admin.getId());
+        // Insert general news
+        generalNewsDao.add(generalNews);
+        return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "Success"));
+      }
+    });
 
     // CREATE DEPARTMENT NEWS POST BY ADMIN
+    post("/departments/:departmentId/admins/:adminId/news/new", "application/json", (request, response) -> {
+      Department department = departmentDao.get(parseInt(request.params("departmentId")));
+      Admin admin = adminDao.get(parseInt(request.params("adminId")));
+      DepartmentNews departmentNews = gson.fromJson(request.body(), DepartmentNews.class);
+
+      // Set news type to departmental if not null
+      if(departmentNews != null){
+        departmentNews.setNews_type(DepartmentNews.NEWS_TYPE);
+      } else {
+        throw new ApiException("No input provided", Response.BAD_REQUEST);
+      }
+
+      if(department == null){
+        throw new ApiException(String.format("No department with the id: '%s' exists", request.params("departmentId")), Response.NOT_FOUND);
+      } else if (admin == null){
+        throw new ApiException(String.format("No admin with the id: '%s' exists", request.params("adminId")), Response.NOT_FOUND);
+      } else if (department.getId() != admin.getDepartment_id()){
+        // If admin is not in department they'd like to post news too
+        throw new ApiException("You can only post news in your department", Response.BAD_REQUEST);
+      } else if (departmentNewsDao.getAll().contains(departmentNews)) {
+        // If duplicate news
+        throw new ApiException("Duplicate record", Response.CONFLICT);
+      } else {
+        // Set owner of news
+        departmentNews.setUser_id(admin.getId());
+        // Set intended department
+        departmentNews.setDepartment_id(department.getId());
+        // Insert department news
+        departmentNewsDao.add(departmentNews);
+        return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "Success"));
+      }
+    });
 
     // CREATE USER
     post("/departments/:id/users/new", "application/json", (request, response) -> {
