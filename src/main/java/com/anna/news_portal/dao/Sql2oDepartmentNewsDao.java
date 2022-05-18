@@ -124,9 +124,11 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
   public Map<String, Object> transformDepartmentNews(DepartmentNews departmentNews){
     Department department = departmentDao.get(departmentNews.getDepartment_id());
     User user = userDao.get(departmentNews.getUser_id());
+    List<Topic> topics = getTopics(departmentNews.getId());
     Map<String, Object> newsMap = new HashMap<>();
     newsMap.put("title", departmentNews.getTitle());
     newsMap.put("content", departmentNews.getContent());
+    newsMap.put("topics", topics);
     newsMap.put("owner", userDao.transform(user));
     newsMap.put("department", department);
     newsMap.put("created_at", departmentNews.getCreated_at());
