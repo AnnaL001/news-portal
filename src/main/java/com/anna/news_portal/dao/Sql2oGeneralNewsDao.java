@@ -3,20 +3,25 @@ package com.anna.news_portal.dao;
 import com.anna.news_portal.interfaces.NewsPortalDao;
 import com.anna.news_portal.models.GeneralNews;
 import com.anna.news_portal.models.Topic;
+import com.anna.news_portal.models.User;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
   private final Sql2o sql2o;
   private static Sql2oTopicDao topicDao;
+  private static Sql2oUserDao userDao;
 
   public Sql2oGeneralNewsDao(Sql2o sql2o) {
     this.sql2o = sql2o;
     topicDao = new Sql2oTopicDao(sql2o);
+    userDao = new Sql2oUserDao(sql2o);
   }
 
   @Override
@@ -114,6 +119,29 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
       topicList = new ArrayList<>();
     }
     return topicList;
+  }
+
+  public Map<String, Object> transformGeneralNews(GeneralNews generalNews){
+    User user = userDao.get(generalNews.getUser_id());
+    Map<String, Object> newsMap = new HashMap<>();
+    newsMap.put("title", generalNews.getTitle());
+    newsMap.put("content", generalNews.getContent());
+    newsMap.put("owner", userDao.transform(user));
+    newsMap.put("created_at", generalNews.getCreated_at());
+    newsMap.put("formatted_created_at", generalNews.getFormatted_created_date());
+    newsMap.put("news_type", generalNews.getNews_type());
+    return newsMap;
+  }
+
+  public List<Map<String, Object>> transformGeneralNewsList(List<GeneralNews> generalNewsList){
+    List<Map<String, Object>> generalNewsCollection = new ArrayList<>();
+
+    // Transform GeneralNews objects in the list
+    for(GeneralNews generalNews: generalNewsList){
+      generalNewsCollection.add(transformGeneralNews(generalNews));
+    }
+
+    return generalNewsCollection;
   }
 
   @Override
