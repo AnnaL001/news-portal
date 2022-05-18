@@ -6,6 +6,7 @@ import com.anna.news_portal.exceptions.ApiException;
 import com.anna.news_portal.models.*;
 import com.anna.news_portal.response.ApiResponse;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.sql2o.Sql2o;
 
 
@@ -24,10 +25,11 @@ public class App {
     Sql2oGeneralNewsDao generalNewsDao = new Sql2oGeneralNewsDao(sql2o);
     Sql2oDepartmentNewsDao departmentNewsDao = new Sql2oDepartmentNewsDao(sql2o);
     Sql2oAdminDao adminDao = new Sql2oAdminDao(sql2o);
+    Sql2oTopicDao topicDao = new Sql2oTopicDao(sql2o);
     Gson gson = new Gson();
 
     // CREATE DEPARTMENT
-    post("/departments/new", "application/json", (request, response) -> {
+    post("/departments", "application/json", (request, response) -> {
       Department department = gson.fromJson(request.body(), Department.class);
       if(department == null){
         throw new ApiException("No input provided", Response.BAD_REQUEST);
@@ -41,7 +43,7 @@ public class App {
     });
 
     // CREATE GENERAL NEWS BY USER
-    post("/users/:id/news/new", "application/json", (request, response) -> {
+    post("/users/:id/news", "application/json", (request, response) -> {
       User user = userDao.get(parseInt(request.params("id")));
       GeneralNews generalNews = gson.fromJson(request.body(), GeneralNews.class);
 
@@ -66,7 +68,7 @@ public class App {
     });
 
     // CREATE DEPARTMENT NEWS BY USER
-    post("/departments/:departmentId/user/:userId/news/new", "application/json", (request, response) -> {
+    post("/departments/:departmentId/user/:userId/news", "application/json", (request, response) -> {
       Department department = departmentDao.get(parseInt(request.params("departmentId")));
       User user = userDao.get(parseInt(request.params("userId")));
       DepartmentNews departmentNews = gson.fromJson(request.body(), DepartmentNews.class);
@@ -95,7 +97,7 @@ public class App {
     });
 
     // CREATE GENERAL NEWS POST BY ADMIN
-    post("/admins/:id/news/new", "application/json", (request, response) -> {
+    post("/admins/:id/news", "application/json", (request, response) -> {
       Admin admin = adminDao.get(parseInt(request.params("id")));
       GeneralNews generalNews = gson.fromJson(request.body(), GeneralNews.class);
 
@@ -122,7 +124,7 @@ public class App {
     });
 
     // CREATE DEPARTMENT NEWS POST BY ADMIN
-    post("/departments/:departmentId/admins/:adminId/news/new", "application/json", (request, response) -> {
+    post("/departments/:departmentId/admins/:adminId/news", "application/json", (request, response) -> {
       Department department = departmentDao.get(parseInt(request.params("departmentId")));
       Admin admin = adminDao.get(parseInt(request.params("adminId")));
       DepartmentNews departmentNews = gson.fromJson(request.body(), DepartmentNews.class);
@@ -156,7 +158,7 @@ public class App {
     });
 
     // CREATE USER
-    post("/departments/:id/users/new", "application/json", (request, response) -> {
+    post("/departments/:id/users", "application/json", (request, response) -> {
       Department department = departmentDao.get(parseInt(request.params("id")));
       User user = gson.fromJson(request.body(), User.class);
 
@@ -182,7 +184,7 @@ public class App {
     });
 
     // CREATE ADMIN
-    post("/departments/:id/admins/new", "application/json", (request, response) -> {
+    post("/departments/:id/admins", "application/json", (request, response) -> {
       Department department = departmentDao.get(parseInt(request.params("id")));
       Admin admin = gson.fromJson(request.body(), Admin.class);
 
@@ -298,9 +300,101 @@ public class App {
       }
     });
 
-    // ADD TOPICS TO NEWS
+    // ADD TOPICS TO GENERAL NEWS(USER)
+    post("/users/:userId/news/:newsId/topics", "application/json", (request, response) -> {
+      User user = userDao.get(parseInt(request.params("userId")));
+      GeneralNews generalNews = generalNewsDao.get(parseInt(request.params("newsId")));
+      List<Topic> newsTopics = gson.fromJson(request.body(), new TypeToken<List<Topic>>() {}.getType());
+
+      if(user == null){
+        throw new ApiException(String.format("No user with the id: '%s' exists", request.params("userId")), Response.NOT_FOUND);
+      } else if (generalNews == null){
+        throw new ApiException(String.format("No general news post with the id: '%s' exists", request.params("newsId")), Response.NOT_FOUND);
+      } else if (generalNews.getUser_id() != user.getId()){
+        throw new ApiException("You can only add topics to a post that you created", Response.BAD_REQUEST);
+      } else if(newsTopics == null){
+        throw new ApiException("No input provided", Response.BAD_REQUEST);
+      } else {
+        generalNewsDao.addTopics(generalNews, newsTopics);
+        return gson.toJson(new ApiResponse(Response.OK.getStatusCode(), "Success"));
+      }
+    });
+
+    // ADD TOPICS TO DEPARTMENT NEWS(USER)
+    post("/departments/:departmentId/users/:userId/news/:newsId/topics/", "application/json", (request, response) -> {
+      Department department = departmentDao.get(parseInt(request.params("departmentId")));
+      User user = userDao.get(parseInt(request.params("userId")));
+      DepartmentNews departmentNews = departmentNewsDao.get(parseInt(request.params("newsId")));
+      List<Topic> newsTopics = gson.fromJson(request.body(), new TypeToken<List<Topic>>() {}.getType());
+
+      if(department == null){
+        throw new ApiException(String.format("No department with the id: '%s' exists", request.params("departmentId")), Response.NOT_FOUND);
+      } else if(user == null){
+        throw new ApiException(String.format("No user with the id: '%s' exists", request.params("userId")), Response.NOT_FOUND);
+      } else if (departmentNews == null){
+        throw new ApiException(String.format("No department news post with the id: '%s' exists", request.params("newsId")), Response.NOT_FOUND);
+      } else if (departmentNews.getUser_id() != user.getId()){
+        throw new ApiException("You can only add topics to a post that you created", Response.BAD_REQUEST);
+      } else if (newsTopics == null){
+        throw new ApiException("No input provided", Response.NOT_FOUND);
+      } else {
+        departmentNewsDao.addTopics(departmentNews, newsTopics);
+        return gson.toJson(new ApiResponse(Response.OK.getStatusCode(), "Success"));
+      }
+    });
+
+    // ADD TOPICS TO GENERAL NEWS(ADMIN)
+    post("/admins/:adminId/news/:newsId/topics", "application/json", (request, response) -> {
+      Admin admin = adminDao.get(parseInt(request.params("adminId")));
+      GeneralNews generalNews = generalNewsDao.get(parseInt(request.params("newsId")));
+      List<Topic> newsTopics = gson.fromJson(request.body(), new TypeToken<List<Topic>>() {}.getType());
+
+      if(admin == null){
+        throw new ApiException(String.format("No admin with the id: '%s' exists", request.params("adminId")), Response.NOT_FOUND);
+      } else if (generalNews == null){
+        throw new ApiException(String.format("No general news post with the id: '%s' exists", request.params("newsId")), Response.NOT_FOUND);
+      } else if (generalNews.getUser_id() != admin.getId()){
+        throw new ApiException("You can only add topics to a post that you created", Response.BAD_REQUEST);
+      } else if(newsTopics == null){
+        throw new ApiException("No input provided", Response.BAD_REQUEST);
+      } else {
+        generalNewsDao.addTopics(generalNews, newsTopics);
+        return gson.toJson(new ApiResponse(Response.OK.getStatusCode(), "Success"));
+      }
+    });
+
+    // ADD TOPICS TO DEPARTMENT NEWS(ADMIN)
+    post("/departments/:departmentId/admin/:adminId/news/:newsId/topics/", "application/json", (request, response) -> {
+      Department department = departmentDao.get(parseInt(request.params("departmentId")));
+      Admin admin = adminDao.get(parseInt(request.params("adminId")));
+      DepartmentNews departmentNews = departmentNewsDao.get(parseInt(request.params("newsId")));
+      List<Topic> newsTopics = gson.fromJson(request.body(), new TypeToken<List<Topic>>() {}.getType());
+
+      if(department == null){
+        throw new ApiException(String.format("No department with the id: '%s' exists", request.params("departmentId")), Response.NOT_FOUND);
+      } else if(admin == null){
+        throw new ApiException(String.format("No admin with the id: '%s' exists", request.params("adminId")), Response.NOT_FOUND);
+      } else if (departmentNews == null){
+        throw new ApiException(String.format("No department news post with the id: '%s' exists", request.params("newsId")), Response.NOT_FOUND);
+      } else if (departmentNews.getUser_id() != admin.getId()){
+        throw new ApiException("You can only add topics to a post that you created", Response.BAD_REQUEST);
+      } else if (newsTopics == null){
+        throw new ApiException("No input provided", Response.NOT_FOUND);
+      } else {
+        departmentNewsDao.addTopics(departmentNews, newsTopics);
+        return gson.toJson(new ApiResponse(Response.OK.getStatusCode(), "Success"));
+      }
+    });
 
     // GET NEWS TOPICS
+    get("/topics", "application/json", (request, response) -> {
+      if(topicDao.getAll().size() > 0){
+        ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(topicDao.getAll()));
+        return gson.toJson(apiResponse);
+      } else {
+        throw new ApiException("No topics listed", Response.NOT_FOUND);
+      }
+    });
 
     // DELETE GENERAL NEWS POSTS BY OWNER(USER)
     delete("/users/:userId/news/:newsId/delete", "application/json", (request, response) -> {
@@ -320,6 +414,21 @@ public class App {
     });
 
     // DELETE GENERAL NEWS POSTS BY OWNER(ADMIN)
+    delete("/admins/:adminId/news/:newsId/delete", "application/json", (request, response) -> {
+      Admin admin = adminDao.get(parseInt(request.params("adminId")));
+      GeneralNews generalNews = generalNewsDao.get(parseInt(request.params("newsId")));
+
+      if(admin == null){
+        throw new ApiException(String.format("No admin with the id: '%s' listed", request.params("adminId")), Response.NOT_FOUND);
+      } else if(generalNews == null){
+        throw new ApiException(String.format("No general news post with the id: '%s' listed", request.params("newsId")), Response.NOT_FOUND);
+      } else if(generalNews.getUser_id() != parseInt(request.params("adminId"))){
+        throw new ApiException("You can only delete the news post you created", Response.BAD_REQUEST);
+      } else {
+        generalNewsDao.delete(generalNews.getId());
+        return gson.toJson(new ApiResponse(Response.OK.getStatusCode(), "Success"));
+      }
+    });
 
     // DELETE DEPARTMENT NEWS POSTS BY OWNER(USER)
     delete("/departments/:departmentId/users/:userId/news/:newsId/delete", "application/json", (request, response) -> {
@@ -342,6 +451,24 @@ public class App {
     });
 
     // DELETE DEPARTMENT NEWS POSTS BY OWNER(ADMIN)
+    delete("/departments/:departmentId/admins/:adminId/news/:newsId/delete", "application/json", (request, response) -> {
+      Department department = departmentDao.get(parseInt(request.params("departmentId")));
+      Admin admin = adminDao.get(parseInt(request.params("adminId")));
+      DepartmentNews departmentNews = departmentNewsDao.get(parseInt(request.params("newsId")));
+
+      if(department == null){
+        throw new ApiException(String.format("No department with the id: '%s' listed", request.params("departmentId")), Response.NOT_FOUND);
+      } else if(admin == null){
+        throw new ApiException(String.format("No admin with the id: '%s' listed", request.params("adminId")), Response.NOT_FOUND);
+      } else if (departmentNews == null){
+        throw new ApiException(String.format("No department news post with the id: '%s' listed", request.params("newsId")), Response.NOT_FOUND);
+      } else if (departmentNews.getUser_id() != admin.getId()){
+        throw new ApiException("You can only delete the news post that you created", Response.NOT_FOUND);
+      } else {
+        departmentNewsDao.delete(departmentNews.getId());
+        return gson.toJson(new ApiResponse(Response.OK.getStatusCode(), "Success"));
+      }
+    });
 
     // DELETE USER BY ADMIN
     delete("/admins/:adminId/users/:userId/delete", "application/json", (request, response) -> {
