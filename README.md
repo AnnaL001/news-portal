@@ -18,7 +18,7 @@ The Java application is a REST API that provides access to endpoints that allow 
 ## Endpoints
 ### GET & DELETE
 | **Url**                              | **HTTP verb**       | **Description**                      |
-|--------------------------------------|:--------------------|:-------------------------------------|
+|:--------------------------------------|:--------------------|:-------------------------------------|
 | /departments                         | GET                | Retrieve departments                  |    
 | /users                               | GET                | Retrieve users                        |
 | /departments/:id                     | GET                | Retrieve a department                 |
