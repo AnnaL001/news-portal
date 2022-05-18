@@ -126,8 +126,7 @@ The Java application is a REST API that provides access to endpoints that allow 
     HTTP VERB: POST
     DESCRIPTION: Add topics to general news post by admin
     Sample input
-    ```
-    [
+    ```[
      {"name": "Systems security"},
      {"name": "Penetration testing"},
      {"name": "Cyber security"},
