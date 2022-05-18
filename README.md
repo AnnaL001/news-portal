@@ -34,8 +34,8 @@ The Java application is a REST API that provides access to endpoints that allow 
 | /admins/:adminId/news/:newsId/delete | DELETE | Delete general news post by owner (admin) |
 ### POST
 * URL: /departments <br>
-  HTTP VERB: POST <br>
-  DESCRIPTION: Add a department <br>
+  HTTP verb: POST <br>
+  Description: Add a department <br>
   Sample input
   ``` 
   {
@@ -45,8 +45,8 @@ The Java application is a REST API that provides access to endpoints that allow 
   ```
 
 * URL: /departments/:id/users <br>
-  HTTP VERB: POST <br>
-  DESCRIPTION: Add a user in department <br>
+  HTTP verb: POST <br>
+  Description: Add a user in department <br>
   Sample input
   ```
   {
@@ -56,8 +56,8 @@ The Java application is a REST API that provides access to endpoints that allow 
   ```
   
 * URL: /users/:id/news <br>
-  HTTP VERB: POST <br>
-  DESCRIPTION: Add a general news post by a user <br>
+  HTTP verb: POST <br>
+  Description: Add a general news post by a user <br>
   Sample input
   ``` 
   {
@@ -67,8 +67,8 @@ The Java application is a REST API that provides access to endpoints that allow 
   ```
   
 * URL: /departments/:departmentId/user/:userId/news <br>
-  HTTP VERB: POST <br>
-  DESCRIPTION: Add a department news post by a user <br>
+  HTTP verb: POST <br>
+  Description: Add a department news post by a user <br>
   Sample input
   ```
   {
@@ -78,8 +78,8 @@ The Java application is a REST API that provides access to endpoints that allow 
   ```
  
  * URL: /departments/:id/admins/ <br>
-   HTTP VERB: POST <br>
-   DESCRIPTION: Add an admin to a department <br>
+   HTTP verb: POST <br>
+   Description: Add an admin to a department <br>
    Sample input 
    ``` 
    {
@@ -89,8 +89,8 @@ The Java application is a REST API that provides access to endpoints that allow 
    ```
    
  * URL: /admins/:id/news <br>
-   HTTP VERB: POST <br>
-   DESCRIPTION: Add a general news post by an admin<br>
+   HTTP verb: POST <br>
+   Description: Add a general news post by an admin<br>
    Sample input 
    ``` 
    {
@@ -100,18 +100,19 @@ The Java application is a REST API that provides access to endpoints that allow 
    ```
    
  * URL: /departments/:departmentId/admins/:adminId/news <br>
-   HTTP VERB: POST <br>
-   DESCRIPTION: Add a department news post by admin <br>
+   HTTP verb: POST <br>
+   Description: Add a department news post by admin <br>
    Sample input
-   ``` {
+   ``` 
+    {
     "title": "A message from the incoming department head",
     "content": "As we usher in the next chapter in the company's operation, the incoming department head has a few words of encouragement"
     }
     ```
   
   * URL: /users/:userId/news/:newsId/topics <br>
-    HTTP VERB: POST <br>
-    DESCRIPTION: Add topics to general news post by user <br>
+    HTTP verb: POST <br>
+    Description: Add topics to general news post by user <br>
     Sample input
     ```
     [
@@ -122,10 +123,11 @@ The Java application is a REST API that provides access to endpoints that allow 
     ```
     
   * URL: /admins/:adminId/news/:newsId/topics <br>
-    HTTP VERB: POST <br>
-    DESCRIPTION: Add topics to general news post by admin <br>
+    HTTP verb: POST <br>
+    Description: Add topics to general news post by admin <br>
     Sample input
-    ```[
+    ```
+    [
      {"name": "Systems security"},
      {"name": "Penetration testing"},
      {"name": "Cyber security"},
