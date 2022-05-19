@@ -53,7 +53,7 @@ public class App {
       endpoints.put("Delete department news post by owner(admin)", "/departments/:departmentId/admins/:adminId/news/:newsId/delete");
       endpoints.put("Delete general news post by owner (admin)", "/admins/:adminId/news/:newsId/delete");
       endpoints.put("Other endpoints", "Endpoints with HTTP verb post can be found in the readme for now");
-      return gson.toJson(new ApiResponse(Response.OK.getStatusCode(), "Get & Delete endpoints: Post endpoints are listed in the readme", new Gson().toJsonTree(endpoints)));
+      return gson.toJson(new ApiResponse(Response.OK.getStatusCode(), "Get & Delete endpoints: Post endpoints are listed in the README.md", new Gson().toJsonTree(endpoints)));
     });
 
     // CREATE DEPARTMENT
