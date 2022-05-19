@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import org.sql2o.Sql2o;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -18,7 +19,15 @@ import static java.lang.Integer.parseInt;
 import static spark.Spark.*;
 
 public class App {
+  static int getHerokuAssignedPort() {
+    ProcessBuilder processBuilder = new ProcessBuilder();
+    if (processBuilder.environment().get("PORT") != null) {
+      return Integer.parseInt(processBuilder.environment().get("PORT"));
+    }
+    return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
+  }
   public static void main(String[] args) {
+    port(getHerokuAssignedPort());
     Sql2o sql2o = new Sql2o("jdbc:postgresql://localhost:5432/news_portal", "anna", "pol1234");
     Sql2oDepartmentDao departmentDao = new Sql2oDepartmentDao(sql2o);
     Sql2oUserDao userDao = new Sql2oUserDao(sql2o);
@@ -27,6 +36,25 @@ public class App {
     Sql2oAdminDao adminDao = new Sql2oAdminDao(sql2o);
     Sql2oTopicDao topicDao = new Sql2oTopicDao(sql2o);
     Gson gson = new Gson();
+
+    get("/", "application/json", (request, response) -> {
+      Map<String, String> endpoints = new HashMap<>();
+      endpoints.put("Retrieve departments", "/departments");
+      endpoints.put("Retrieve users", "/users");
+      endpoints.put("Retrieve a department", "/departments/:id");
+      endpoints.put("Retrieve a user", "/users/:id");
+      endpoints.put("Retrieve users/employees in a department", "/departments/:id/users");
+      endpoints.put("Retrieve news associated with a department", "/departments/:id/news");
+      endpoints.put("Retrieve general news", "/news");
+      endpoints.put("Retrieve news topics", "/topics");
+      endpoints.put("Delete general news post by owner (user)", "/users/:userId/news/:newsId/delete");
+      endpoints.put("Delete department news post by owner(user)", "/departments/:departmentId/users/:userId/news/:newsId/delete");
+      endpoints.put("Delete user by admin", "/admins/:adminId/users/:userId/delete");
+      endpoints.put("Delete department news post by owner(admin)", "/departments/:departmentId/admins/:adminId/news/:newsId/delete");
+      endpoints.put("Delete general news post by owner (admin)", "/admins/:adminId/news/:newsId/delete");
+      endpoints.put("Other endpoints", "Endpoints with HTTP verb post can be found in the readme for now");
+      return gson.toJson(new ApiResponse(Response.OK.getStatusCode(), "Get & Delete endpoints: Post endpoints are listed in the readme", new Gson().toJsonTree(endpoints)));
+    });
 
     // CREATE DEPARTMENT
     post("/departments", "application/json", (request, response) -> {
