@@ -13,7 +13,8 @@ The Java application is a REST API that provides access to endpoints that allow 
 - To access the Java application's code locally, you can clone the main branch or download the ZIP folder via the 'Code' button
 - Once locally, you can view/run the Java application's code via a text editor(VS Code or Sublime Text) or an IDE(IntelliJ).
 - In the case of IntelliJ, to navigate you can reference their documentation https://www.jetbrains.com/help/idea/getting-started.html
-- Otherwise to view the web application navigate to the link below <br>
+- Otherwise to access the API endpoints online navigate to the link below <br>
+ [Live Link](https://anna-news-portal-api.herokuapp.com/)
 
 ## Endpoints
 ### GET & DELETE
