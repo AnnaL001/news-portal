@@ -17,6 +17,10 @@ public class Sql2oAdminDao implements NewsPortalDao<Admin> {
   }
 
 
+  /**
+   * Function to add an admin
+   * @param data An admin's data
+   */
   @Override
   public void add(Admin data) {
     String insertQuery = "INSERT INTO users (name, position, role, department_id) VALUES (:name, :position, :role, :department_id)";
@@ -31,6 +35,10 @@ public class Sql2oAdminDao implements NewsPortalDao<Admin> {
     }
   }
 
+  /**
+   * Function to retrieve list of admins
+   * @return A list of admins
+   */
   @Override
   public List<Admin> getAll() {
     String selectQuery = "SELECT * FROM users WHERE role = 'Admin'";
@@ -47,6 +55,11 @@ public class Sql2oAdminDao implements NewsPortalDao<Admin> {
     return admins;
   }
 
+  /**
+   * Function to retrieve a specific admin based on ID
+   * @param id An admin's id
+   * @return An admin's data
+   */
   @Override
   public Admin get(int id) {
     String selectQuery = "SELECT * FROM users WHERE id = :id AND role = 'Admin'";
@@ -64,6 +77,10 @@ public class Sql2oAdminDao implements NewsPortalDao<Admin> {
     return admin;
   }
 
+  /**
+   * Function to update an admin's data
+   * @param data An admins's updated data
+   */
   @Override
   public void update(Admin data) {
     String updateQuery = "UPDATE users SET (name, position, department_id) = (:name, :position, :department_id) WHERE id = :id AND role = 'Admin'";
@@ -76,6 +93,10 @@ public class Sql2oAdminDao implements NewsPortalDao<Admin> {
     }
   }
 
+  /**
+   * Function to delete an admin
+   * @param id An admin's id
+   */
   @Override
   public void delete(int id) {
     String deleteQuery = "DELETE FROM users WHERE id = :id AND role = 'Admin'";
@@ -88,6 +109,9 @@ public class Sql2oAdminDao implements NewsPortalDao<Admin> {
     }
   }
 
+  /**
+   * Function to delete all admins' data
+   */
   @Override
   public void deleteAll() {
     String deleteQuery = "DELETE FROM users WHERE role = 'Admin'";

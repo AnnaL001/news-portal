@@ -24,6 +24,10 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     userDao = new Sql2oUserDao(sql2o);
   }
 
+  /**
+   * Function to add general news post
+   * @param data General news post's data
+   */
   @Override
   public void add(GeneralNews data) {
     try(Connection connection = sql2o.open()){
@@ -38,6 +42,10 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     }
   }
 
+  /**
+   * Function to retrieve list of general news posts
+   * @return A list of general news posts
+   */
   @Override
   public List<GeneralNews> getAll() {
     String selectQuery = "SELECT * FROM news WHERE news_type = 'General' ORDER BY created_at DESC";
@@ -55,6 +63,11 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     return generalNewsList;
   }
 
+  /**
+   * Function to retrieve a specific general news post based on ID
+   * @param id General news post's id
+   * @return General news post's data
+   */
   @Override
   public GeneralNews get(int id) {
     String selectQuery = "SELECT * FROM news WHERE id = :id AND news_type = 'General'";
@@ -73,6 +86,10 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     return generalNews;
   }
 
+  /**
+   * Function to update general news post's data
+   * @param data General news post's updated data
+   */
   @Override
   public void update(GeneralNews data) {
     String updateQuery = "UPDATE news SET (title, content, user_id) = (:title, :content, :user_id) WHERE id = :id";
@@ -85,6 +102,11 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     }
   }
 
+  /**
+   * Function to add topics to general news post
+   * @param generalNews General news post
+   * @param topics A list of topics
+   */
   public void addTopics(GeneralNews generalNews, List<Topic> topics){
     String insertQuery = "INSERT INTO news_topics (news_id, topic_id) VALUES (:newsId, :topicId)";
 
@@ -92,8 +114,6 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
       // Add topic to database if it doesn't exist
       if(!topicDao.getAll().contains(topic)){
         topicDao.add(topic);
-      } else {
-        // Fetch topic Id
       }
 
       try (Connection connection = sql2o.open()){
@@ -107,6 +127,11 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     }
   }
 
+  /**
+   * Function to retrieve a list of topics associated with general news post
+   * @param newsId General news post's id
+   * @return A list of topics
+   */
   public List<Topic> getTopics(int newsId){
     String selectQuery = "SELECT topics.* FROM news JOIN news_topics ON (news.id = news_topics.news_id) JOIN topics ON (news_topics.topic_id = topics.id) WHERE news.id = :newsId AND news.news_type = 'General'";
     List<Topic> topicList;
@@ -123,6 +148,11 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     return topicList;
   }
 
+  /**
+   * Function to transform general news post's data for display to user
+   * @param generalNews General news post's data
+   * @return A transformed general news object
+   */
   public Map<String, Object> transformGeneralNews(GeneralNews generalNews){
     User user = userDao.get(generalNews.getUser_id());
     List<Topic> topics = getTopics(generalNews.getId());
@@ -137,6 +167,11 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     return newsMap;
   }
 
+  /**
+   * Function to transform a list of general news posts for display to user
+   * @param generalNewsList A list of general news posts
+   * @return Transformed list of general news posts
+   */
   public List<Map<String, Object>> transformGeneralNewsList(List<GeneralNews> generalNewsList){
     List<Map<String, Object>> generalNewsCollection = new ArrayList<>();
 
@@ -148,6 +183,10 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     return generalNewsCollection;
   }
 
+  /**
+   * Function to delete a general news post
+   * @param id A general news post's id
+   */
   @Override
   public void delete(int id) {
     String deleteQuery = "DELETE FROM news WHERE id = :id AND news_type = 'General'";
@@ -160,6 +199,9 @@ public class Sql2oGeneralNewsDao implements NewsPortalDao<GeneralNews> {
     }
   }
 
+  /**
+   * Function to delete all general news posts' data
+   */
   @Override
   public void deleteAll() {
     String deleteQuery = "DELETE FROM news WHERE news_type = 'General'";

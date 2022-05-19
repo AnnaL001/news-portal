@@ -24,6 +24,10 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
     userDao = new Sql2oUserDao(sql2o);
   }
 
+  /**
+   * Function to add department news post
+   * @param data Department news post's data
+   */
   @Override
   public void add(DepartmentNews data) {
     try(Connection connection = sql2o.open()){
@@ -38,6 +42,10 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
     }
   }
 
+  /**
+   * Function to retrieve list of department news posts
+   * @return A list of department news posts
+   */
   @Override
   public List<DepartmentNews> getAll() {
     String selectQuery = "SELECT * FROM news WHERE news_type = 'Departmental' ORDER BY created_at DESC";
@@ -55,6 +63,11 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
     return departmentNewsList;
   }
 
+  /**
+   * Function to retrieve a specific department news post based on ID
+   * @param id Department news post's id
+   * @return Department news post's data
+   */
   @Override
   public DepartmentNews get(int id) {
     String selectQuery = "SELECT * FROM news WHERE id = :id AND news_type = 'Departmental'";
@@ -73,6 +86,10 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
     return departmentNews;
   }
 
+  /**
+   * Function to update department news post's data
+   * @param data Department news post's updated data
+   */
   @Override
   public void update(DepartmentNews data) {
     String updateQuery = "UPDATE news SET (title, content, user_id, department_id) = (:title, :content, :user_id, :department_id) WHERE id = :id";
@@ -85,6 +102,11 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
     }
   }
 
+  /**
+   * Function to add topics to department news post
+   * @param departmentNews Department news post
+   * @param topics A list of topics
+   */
   public void addTopics(DepartmentNews departmentNews, List<Topic> topics){
     String insertQuery = "INSERT INTO news_topics (news_id, topic_id) VALUES (:newsId, :topicId)";
 
@@ -105,6 +127,11 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
     }
   }
 
+  /**
+   * Function to retrieve a list of topics associated with department news post
+   * @param newsId Department news post's id
+   * @return A list of topics
+   */
   public List<Topic> getTopics(int newsId){
     String selectQuery = "SELECT topics.* FROM news JOIN news_topics ON (news.id = news_topics.news_id) JOIN topics ON (news_topics.topic_id = topics.id) WHERE news.id = :newsId AND news.news_type = 'Departmental'";
     List<Topic> topicList;
@@ -121,6 +148,11 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
     return topicList;
   }
 
+  /**
+   * Function to transform department news post's data for display to user
+   * @param departmentNews Department news post's data
+   * @return A transformed department news object
+   */
   public Map<String, Object> transformDepartmentNews(DepartmentNews departmentNews){
     Department department = departmentDao.get(departmentNews.getDepartment_id());
     User user = userDao.get(departmentNews.getUser_id());
@@ -137,6 +169,11 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
     return newsMap;
   }
 
+  /**
+   * Function to transform a list of department news posts for display to user
+   * @param departmentNewsList A list of department news posts
+   * @return Transformed list of department news posts
+   */
   public List<Map<String, Object>> transformDepartmentNewsList(List<DepartmentNews> departmentNewsList){
     List<Map<String, Object>> newsMapList = new ArrayList<>();
 
@@ -147,6 +184,10 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
     return newsMapList;
   }
 
+  /**
+   * Function to delete a department news post
+   * @param id A department news post's id
+   */
   @Override
   public void delete(int id) {
     String deleteQuery = "DELETE FROM news WHERE id = :id AND news_type = 'Departmental'";
@@ -159,6 +200,9 @@ public class Sql2oDepartmentNewsDao implements NewsPortalDao<DepartmentNews> {
     }
   }
 
+  /**
+   * Function to delete all department news posts' data
+   */
   @Override
   public void deleteAll() {
     String deleteQuery = "DELETE FROM news WHERE news_type = 'Departmental'";

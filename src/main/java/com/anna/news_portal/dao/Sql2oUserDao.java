@@ -21,6 +21,10 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
     departmentDao = new Sql2oDepartmentDao(sql2o);
   }
 
+  /**
+   * Function to add a user
+   * @param data A user's data
+   */
   @Override
   public void add(User data) {
     String insertQuery = "INSERT INTO users (name, position, role, department_id) VALUES (:name, :position, :role, :department_id)";
@@ -35,6 +39,10 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
     }
   }
 
+  /**
+   * Function to retrieve list of users
+   * @return A list of users
+   */
   @Override
   public List<User> getAll() {
     String selectQuery = "SELECT * FROM users ORDER BY id";
@@ -51,6 +59,11 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
     return users;
   }
 
+  /**
+   * Function to retrieve a specific user based on ID
+   * @param id A user's id
+   * @return A user's data
+   */
   @Override
   public User get(int id) {
     String selectQuery = "SELECT * FROM users WHERE id = :id";
@@ -68,6 +81,10 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
     return user;
   }
 
+  /**
+   * Function to update a user's data
+   * @param data A user's updated data
+   */
   @Override
   public void update(User data) {
     String updateQuery = "UPDATE users SET (name, position, department_id) = (:name, :position, :department_id) WHERE id = :id";
@@ -80,6 +97,11 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
     }
   }
 
+  /**
+   * Function to transform user data for display to user
+   * @param user A user's data
+   * @return A transformed user object
+   */
   public Map<String, Object> transform(User user){
     Department department = departmentDao.get(user.getDepartment_id());
     Map<String, Object> userMap = new HashMap<>();
@@ -91,6 +113,11 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
     return userMap;
   }
 
+  /**
+   * Function to transform a list of users for display to user
+   * @param users A list of users
+   * @return Transformed list of users
+   */
   public List<Map<String, Object>> transformUsers(List<User> users){
     List<Map<String, Object>> transformedList = new ArrayList<>();
     for(User user: users){
@@ -99,6 +126,10 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
     return transformedList;
   }
 
+  /**
+   * Function to delete a user
+   * @param id A user's id
+   */
   @Override
   public void delete(int id) {
     String deleteQuery = "DELETE FROM users WHERE id = :id AND role='Normal user'";
@@ -111,6 +142,9 @@ public class Sql2oUserDao implements NewsPortalDao<User> {
     }
   }
 
+  /**
+   * Function to delete all users' data
+   */
   @Override
   public void deleteAll() {
     String deleteQuery = "DELETE FROM users WHERE role = 'Normal user'";

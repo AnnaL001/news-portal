@@ -16,6 +16,10 @@ public class Sql2oTopicDao implements NewsPortalDao<Topic> {
     this.sql2o = sql2o;
   }
 
+  /**
+   * Function to add a topic
+   * @param data A topic's data
+   */
   @Override
   public void add(Topic data) {
     String insertQuery = "INSERT INTO topics (name) VALUES (:name)";
@@ -30,6 +34,10 @@ public class Sql2oTopicDao implements NewsPortalDao<Topic> {
     }
   }
 
+  /**
+   * Function to retrieve list of topics
+   * @return A list of topics
+   */
   @Override
   public List<Topic> getAll() {
     String selectQuery = "SELECT * FROM topics ORDER BY id";
@@ -46,6 +54,11 @@ public class Sql2oTopicDao implements NewsPortalDao<Topic> {
     return topics;
   }
 
+  /**
+   * Function to retrieve a specific topic based on ID
+   * @param id A topic's id
+   * @return A topic's data
+   */
   @Override
   public Topic get(int id) {
     String selectQuery = "SELECT * FROM topics WHERE id = :id";
@@ -63,6 +76,10 @@ public class Sql2oTopicDao implements NewsPortalDao<Topic> {
     return topic;
   }
 
+  /**
+   * Function to update a topic's data
+   * @param data A topic's updated data
+   */
   @Override
   public void update(Topic data) {
     String updateQuery = "UPDATE topics SET name = :name WHERE id = :id";
@@ -75,6 +92,10 @@ public class Sql2oTopicDao implements NewsPortalDao<Topic> {
     }
   }
 
+  /**
+   * Function to delete a topic
+   * @param id A topic's id
+   */
   @Override
   public void delete(int id) {
     String deleteQuery = "DELETE FROM topics WHERE id = :id";
@@ -87,6 +108,9 @@ public class Sql2oTopicDao implements NewsPortalDao<Topic> {
     }
   }
 
+  /**
+   * Function to delete all topics' data
+   */
   @Override
   public void deleteAll() {
     String deleteQuery = "DELETE FROM topics";

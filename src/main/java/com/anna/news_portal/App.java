@@ -61,7 +61,9 @@ public class App {
           // if duplicate data
           throw new ApiException("Duplicate record", Response.CONFLICT);
       } else {
+          // Set owner of news post
           generalNews.setUser_id(user.getId());
+          // Insert news post
           generalNewsDao.add(generalNews);
           return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "Success"));
       }
@@ -89,8 +91,11 @@ public class App {
       } else if (departmentNewsDao.getAll().contains(departmentNews)) {
         throw new ApiException("Duplicate record", Response.CONFLICT);
       } else {
+        // Set owner of news post
         departmentNews.setUser_id(user.getId());
+        // Set department associated with news post
         departmentNews.setDepartment_id(department.getId());
+        // Insert department news post
         departmentNewsDao.add(departmentNews);
         return gson.toJson(new ApiResponse(Response.CREATED.getStatusCode(), "Success"));
       }
@@ -260,6 +265,7 @@ public class App {
       Department department = departmentDao.get(parseInt(request.params("id")));
 
       if(department != null){
+        // Retrieve users/employees within a department
         List<User> departmentUsers = departmentDao.getUsers(department.getId());
         if(departmentUsers.size() > 0){
           ApiResponse apiResponse = new ApiResponse(Response.OK.getStatusCode(), "Success", new Gson().toJsonTree(userDao.transformUsers(departmentUsers)));
@@ -315,6 +321,7 @@ public class App {
       } else if(newsTopics == null){
         throw new ApiException("No input provided", Response.BAD_REQUEST);
       } else {
+        // Add news post's topics
         generalNewsDao.addTopics(generalNews, newsTopics);
         return gson.toJson(new ApiResponse(Response.OK.getStatusCode(), "Success"));
       }
@@ -338,6 +345,7 @@ public class App {
       } else if (newsTopics == null){
         throw new ApiException("No input provided", Response.NOT_FOUND);
       } else {
+        // Add news post's topics
         departmentNewsDao.addTopics(departmentNews, newsTopics);
         return gson.toJson(new ApiResponse(Response.OK.getStatusCode(), "Success"));
       }

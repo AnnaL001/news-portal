@@ -10,7 +10,6 @@ import org.sql2o.Sql2oException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
   private final Sql2o sql2o;
@@ -19,6 +18,10 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
     this.sql2o = sql2o;
   }
 
+  /**
+   * Function to add a department
+   * @param data A department's data
+   */
   @Override
   public void add(Department data) {
     try(Connection connection = sql2o.open()){
@@ -33,6 +36,10 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
     }
   }
 
+  /**
+   * Function to retrieve list of departments
+   * @return A list of departments
+   */
   @Override
   public List<Department> getAll() {
     String selectQuery = "SELECT * FROM departments ORDER BY id";
@@ -49,6 +56,11 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
     return departments;
   }
 
+  /**
+   * Function to retrieve a specific department based on ID
+   * @param id A department's id
+   * @return A department's data
+   */
   @Override
   public Department get(int id) {
     String selectQuery = "SELECT * FROM departments WHERE id = :id";
@@ -66,6 +78,10 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
     return department;
   }
 
+  /**
+   * Function to update a department's data
+   * @param data A department's updated data
+   */
   @Override
   public void update(Department data) {
     String updateQuery = "UPDATE departments SET (name, description, employee_count) = (:name, :description, :employee_count) WHERE id = :id";
@@ -78,6 +94,11 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
     }
   }
 
+  /**
+   * Function to retrieve employees/ users within a department
+   * @param departmentId  A department's id
+   * @return A list of users/employees within a department
+   */
   public List<User> getUsers(int departmentId){
     Department department = get(departmentId);
     List<User> users;
@@ -96,6 +117,11 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
   }
 
 
+  /**
+   * Function to retrieve news posts associated with a department
+   * @param departmentId  A department's id
+   * @return A list of news posts associated with a department
+   */
   public List<DepartmentNews> getNews(int departmentId){
     Department department = get(departmentId);
     List<DepartmentNews> departmentNewsList;
@@ -114,6 +140,10 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
     return departmentNewsList;
   }
 
+  /**
+   * Function to delete a department
+   * @param id A department's id
+   */
   @Override
   public void delete(int id) {
     String deleteQuery = "DELETE FROM departments WHERE id = :id";
@@ -126,6 +156,9 @@ public class Sql2oDepartmentDao implements NewsPortalDao<Department> {
     }
   }
 
+  /**
+   * Function to delete all departments' data
+   */
   @Override
   public void deleteAll() {
     String deleteQuery = "DELETE FROM departments";
