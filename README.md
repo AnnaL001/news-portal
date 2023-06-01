@@ -4,6 +4,8 @@ A REST API for querying and retrieving scoped news and information
 ## Description
 The Java application is a REST API that provides access to endpoints that allow employees to create and retrieve news/articles/posts available to all employees and those available by navigating to a department. Aside from that there are endpoints to create and retrieve departments and users. There are also endpoints that allow an admin to delete users let go by the company and allow a user/admin that created a post to delete the corresponding post.
 
+**Database to be moved from Heroku**
+
 #### By **[Lynn Nyangon](https://github.com/AnnaL001)**
 
 ## Setup/Installation Requirements
